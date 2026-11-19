@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ms. Amani - Escape Room</title>
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#25264b,#604b78);color:#fff;text-align:center;padding:20px}
+.card{max-width:520px;margin:25px auto;background:#fff;color:#29264b;border-radius:24px;padding:25px;box-shadow:0 8px 25px #0005}
+h1{color:#ffe08a}
+.room{font-size:48px}
+button{display:block;width:100%;padding:14px;margin:10px 0;border:0;border-radius:14px;background:#e8dafa;color:#29264b;font-size:17px;font-weight:bold}
+button:hover{background:#ffe08a}
+#feedback{font-weight:bold;min-height:28px}
+#next{background:#7bcaad;color:#183b35}
+</style>
+</head>
+<body>
+<h1>Ms. Amani's Escape Room</h1>
+<p>Find the secret treasure!</p>
+<div class="card">
+<div class="room" id="emoji">🚪</div>
+<h2 id="room">Room 1</h2>
+<p id="score">Score: 0 / 40</p>
+<h3 id="question">Choose the correct answer:</h3>
+<div id="answers"></div>
+<p id="feedback"></p>
+<button id="next" onclick="nextRoom()" style="display:none">Open Next Room</button>
+</div>
+<script>
+const rooms=[
+{q:"What is the plural of CAT?",a:["CATS","CATES","CAT"],c:0},
+{q:"She ___ a student.",a:["am","is","are"],c:1},
+{q:"What is the opposite of BIG?",a:["Tall","Small","Long"],c:1},
+{q:"Which one is a fruit?",a:["Carrot","Potato","Apple"],c:2}
+];
+let current=0,score=0,answered=false;
+function showRoom(){
+answered=false;
+document.getElementById("room").textContent="Room "+(current+1);
+document.getElementById("emoji").textContent=["🚪","🔐","🗝️","💎"][current];
+document.getElementById("score").textContent="Score: "+score+" / 40";
+document.getElementById("question").textContent=rooms[current].q;
+document.getElementById("feedback").textContent="";
+document.getElementById("next").style.display="none";
+let box=document.getElementById("answers");box.innerHTML="";
+rooms[current].a.forEach((answer,i)=>{
+let b=document.createElement("button");
+b.textContent=answer;
+b.onclick=()=>check(i);
+box.appendChild(b);
+});
+}
+function check(i){
+if(answered)return;
+answered=true;
+if(i===rooms[current].c){
+score+=10;
+document.getElementById("feedback").textContent="Correct! You found a key!";
+}else{
+document.getElementById("feedback").textContent="Not quite! Try the next room.";
+}
+document.getElementById("score").textContent="Score: "+score+" / 40";
+document.getElementById("next").style.display="block";
+document.getElementById("next").textContent=current===3?"Open the Treasure!":"Open Next Room";
+}
+function nextRoom(){
+if(current===3){
+document.querySelector(".card").innerHTML="<div class='room'>🏆💎</div><h2>You Escaped!</h2><h3>Your score: "+score+" / 40</h3><button onclick='location.reload()'>Play Again</button>";
+}else{
+current++;showRoom();
+}
+}
+showRoom();
+</script>
+</body>
+</html>
