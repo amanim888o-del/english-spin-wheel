@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Spin Wheel</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #fff5fb;
+  color: #78469b;
+  padding: 20px 10px;
+}
+h1 { color: #914db5; }
+.stage {
+  width: min(85vw, 340px);
+  aspect-ratio: 1;
+  margin: 45px auto 25px;
+  position: relative;
+}
+.pointer {
+  position: absolute;
+  z-index: 5;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 42px solid #ed5798;
+}
+#wheel {
+  width: 100%;
+  height: 100%;
+  border: 8px solid #9252b8;
+  border-radius: 50%;
+  position: relative;
+  background: conic-gradient(
+    #f8b5d1 0deg 45deg,
+    #f8dc8c 45deg 90deg,
+    #b9dff7 90deg 135deg,
+    #cdbcf5 135deg 180deg,
+    #b8e9cb 180deg 225deg,
+    #f8cbaa 225deg 270deg,
+    #f5d6e9 270deg 315deg,
+    #c4e4f5 315deg 360deg
+  );
+  box-sizing: border-box;
+}
+.label {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  left: 50%;
+  top: 0;
+  transform-origin: 0 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 12%;
+  box-sizing: border-box;
+  font-size: 13px;
+  font-weight: bold;
+  color: #493052;
+}
+.hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #8e4ab5;
+  border: 5px solid white;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+  color: gold;
+  font-size: 27px;
+}
+button {
+  border: 0;
+  border-radius: 14px;
+  padding: 16px 28px;
+  margin: 8px;
+  color: white;
+  background: #914db5;
+  font-size: 18px;
+  font-weight: bold;
+}
+#stop { background: #ed5798; }
+button:disabled { opacity: .4; }
+#result {
+  font-size: 22px;
+  font-weight: bold;
+  min-height: 35px;
+}
+</style>
+</head>
+<body>
+
+<h1>SPIN THE WHEEL!</h1>
+<p>English Classroom Game</p>
+
+<div class="stage">
+ <div class="pointer"></div>
+ <div id="wheel">
+  <div class="label" style="transform:rotate(0deg)">COLORS</div>
+  <div class="label" style="transform:rotate(45deg)">ANIMALS</div>
+  <div class="label" style="transform:rotate(90deg)">FOOD</div>
+  <div class="label" style="transform:rotate(135deg)">CLOTHES</div>
+  <div class="label" style="transform:rotate(180deg)">OBJECTS</div>
+  <div class="label" style="transform:rotate(225deg)">DRINKS</div>
+  <div class="label" style="transform:rotate(270deg)">WEATHER</div>
+  <div class="label" style="transform:rotate(315deg)">SPELLING</div>
+  <div class="hub">★</div>
+ </div>
+</div>
+
+<div id="result">Ready? Let's play!</div>
+
+<button id="spin">SPIN</button>
+<button id="stop" disabled>STOP</button>
+
+<script>
+const wheel = document.getElementById("wheel");
+const spin = document.getElementById("spin");
+const stop = document.getElementById("stop");
+const result = document.getElementById("result");
+
+const words = [
+ "COLORS","ANIMALS","FOOD","CLOTHES",
+ "OBJECTS","DRINKS","WEATHER","SPELLING"
+];
+
+let angle = 0;
+let frame;
+let running = false;
+let lastTime = 0;
+
+function animate(time) {
+ if (!running) return;
+ if (lastTime) {
+   angle += (time-lastTime)*0.45;
+ }
+ lastTime = time;
+ wheel.style.transform = "rotate("+angle+"deg)";
+ frame = requestAnimationFrame(animate);
+}
+
+spin.addEventListener("click", () => {
+ if (running) return;
+ running = true;
+ lastTime = 0;
+ result.textContent = "Spinning...";
+ spin.disabled = true;
+ stop.disabled = false;
+ frame = requestAnimationFrame(animate);
+});
+
+stop.addEventListener("click", () => {
+ if (!running) return;
+ running = false;
+ cancelAnimationFrame(frame);
+ lastTime = 0;
+ const pointerAngle = ((360 - angle % 360) + 360) % 360;
+ const selected = Math.floor((pointerAngle + 22.5) / 45) % 8;
+ result.textContent = "You got: " + words[selected] + "!";
+ spin.disabled = false;
+ stop.disabled = true;
+});
+</script>
+</body>
+</html>
