@@ -12,3 +12,5 @@
 [Play Treasure Hunt](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_treasure_hunt.html)
 ### 5. Mystery Doors
 [Play Mystery Doors](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_mystery_doors.html)
+### 5. Mystery Doors
+[Play Mystery Doors](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_mystery_doors_v2.html)
