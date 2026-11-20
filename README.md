@@ -30,3 +30,5 @@
 [Play Jungle Safari](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_jungle_safari.html)
 ### 14. Cooking Challenge
 [Play Cooking Challenge](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_cooking_challenge.html)
+### 15. Princess Castle
+[Play Princess Castle](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_princess_castle.html)
