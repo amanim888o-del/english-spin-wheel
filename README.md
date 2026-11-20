@@ -14,3 +14,5 @@
 [Play Mystery Doors](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_mystery_doors.html)
 ### 6. Build a Monster
 [Play Build a Monster](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_build_a_monster.html)
+### 7. Space Mission
+[Play Space Mission](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_space_mission.html)
