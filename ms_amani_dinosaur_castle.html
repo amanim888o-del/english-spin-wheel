@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms. Amani's Dinosaur Castle</title>
+<style>
+:root{--gold:#ffd36a;--cream:#fff7df;--ink:#17212b;--teal:#1d6970;--mint:#8ed5bd;--coral:#ff8b72}
+*{box-sizing:border-box}body{margin:0;font-family:Georgia,'Trebuchet MS',sans-serif;background:#101b25;color:var(--cream);min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;border:0}
+.scene{min-height:100vh;position:relative;overflow:hidden;background:linear-gradient(180deg,#142b3b 0%,#254a4c 48%,#172b2b 100%)}
+.sky{position:absolute;inset:0 0 auto;height:55%;background:radial-gradient(ellipse at 75% 18%,#f5c87955,transparent 24%),linear-gradient(180deg,#132b42,#31565a);pointer-events:none}
+.moon{position:absolute;right:11%;top:8%;width:74px;height:74px;border-radius:50%;background:#f6dca0;box-shadow:0 0 50px #f6dca077}
+.mountains{position:absolute;top:34%;width:100%;height:28%;background:#1c4145;clip-path:polygon(0 85%,12% 22%,24% 76%,39% 8%,54% 80%,70% 24%,86% 82%,100% 30%,100% 100%,0 100%)}
+.castle{position:absolute;top:18%;left:50%;transform:translateX(-50%);width:min(560px,92vw);height:340px;filter:drop-shadow(0 16px 20px #0008)}
+.castle svg{width:100%;height:100%}
+.ground{position:absolute;inset:55% 0 0;background:linear-gradient(180deg,#315344,#172e2b)}
+.fog{position:absolute;inset:52% 0 0;background:radial-gradient(ellipse at 20% 25%,#d9e8d322,transparent 25%),radial-gradient(ellipse at 80% 40%,#d9e8d322,transparent 24%)}
+.topbar{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:15px 18px;gap:10px}
+.brand{font-weight:bold;letter-spacing:2px;color:var(--gold);font-size:13px;text-transform:uppercase}
+.sound{background:#ffffff18;color:white;border:1px solid #ffffff55;border-radius:99px;padding:9px 13px}
+.wrap{position:relative;z-index:2;max-width:820px;margin:0 auto;padding:12px 18px 36px}
+.panel{background:#10212cdd;border:1px solid #e9d29b66;border-radius:22px;padding:24px;box-shadow:0 18px 55px #0006;backdrop-filter:blur(8px)}
+h1{font-size:clamp(30px,7vw,54px);line-height:1.02;margin:8px 0;color:#ffe1a0;text-shadow:0 4px 0 #653e2d}
+.subtitle{color:#d5e4d9;line-height:1.5}
+.kicker{font-size:12px;letter-spacing:3px;color:#9bd5bd;text-transform:uppercase;font-weight:bold}
+input{width:100%;padding:14px 15px;border-radius:12px;border:1px solid #b5c9b9;background:#f8f2df;color:#1b2930;margin:8px 0 14px}
+.choices{display:flex;gap:12px;flex-wrap:wrap}.choice{flex:1;min-width:120px;background:#213b45;border:1px solid #75948c;color:white;border-radius:14px;padding:14px}.choice.selected{outline:3px solid var(--gold);background:#315b58}
+.primary{background:linear-gradient(135deg,#f5cb6c,#e99453);color:#332317;font-weight:bold;border-radius:14px;padding:14px 22px;box-shadow:0 5px 0 #9a5938;margin-top:12px;width:100%}
+.secondary{background:#24434a;color:#f9e9c5;border:1px solid #6f9b8a;border-radius:12px;padding:11px 15px}
+.hidden{display:none!important}
+.hud{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.pill{background:#19343b;border:1px solid #76988b;border-radius:99px;padding:8px 13px;font-size:13px}
+.progress{height:9px;background:#294448;border-radius:20px;overflow:hidden;margin:10px 0 18px}.bar{height:100%;width:0;background:linear-gradient(90deg,#8ed5bd,#ffd36a);transition:width .5s}
+.adventure{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.dino-card,.question-card{background:#1a343d;border:1px solid #65877e;border-radius:18px;padding:16px}
+.dino-art{font-size:88px;text-align:center;filter:drop-shadow(0 8px 8px #0008);padding:8px}
+.dino-caption{text-align:center;color:#c5dfd0;font-size:13px}
+.door{margin:8px auto 0;width:115px;height:155px;border:8px solid #a7794c;border-radius:55px 55px 7px 7px;background:linear-gradient(90deg,#54372d,#80543b,#3b2c27);box-shadow:inset 0 0 0 3px #d5aa70,0 8px 14px #0007;position:relative}
+.door:before{content:"";position:absolute;inset:12px;border:2px solid #d4b17c;border-radius:45px 45px 2px 2px}
+.door:after{content:"";position:absolute;right:12px;top:78px;width:9px;height:9px;border-radius:50%;background:#f5cf69}
+.door.open{transform:perspective(300px) rotateY(-28deg);transform-origin:left;transition:.8s}
+.question-card h2{font-size:22px;margin:5px 0 14px;color:#ffe2a5}
+.question{font-size:19px;line-height:1.4;margin-bottom:14px}
+.answers{display:grid;gap:9px}
+.answer{background:#f5eedc;color:#1b3034;border-radius:11px;padding:12px;text-align:left;border:2px solid transparent;font-weight:bold}
+.answer:disabled{opacity:1}.answer.correct{background:#b8e7bd;border-color:#4d9b66}.answer.wrong{background:#f2b4a5;border-color:#c55c4b}
+.feedback{min-height:28px;margin-top:12px;color:#ffe0a0;font-weight:bold}
+.reward{text-align:center}.trophy{font-size:76px;margin:8px}
+.small{font-size:12px;color:#c0d4c9}
+@media(max-width:620px){.panel{padding:18px}.adventure{grid-template-columns:1fr}.dino-card{display:flex;align-items:center;justify-content:space-around}.dino-art{font-size:66px}.door{width:76px;height:108px;margin:0}.castle{top:22%;height:250px}.wrap{padding-top:4px}}
+</style>
+</head>
+<body>
+<div class="scene">
+<div class="sky"></div><div class="moon"></div><div class="mountains"></div>
+<div class="castle" aria-hidden="true">
+<svg viewBox="0 0 600 360">
+<defs><linearGradient id="stone" x2="0" y2="1"><stop stop-color="#9a8b73"/><stop offset="1" stop-color="#4a5550"/></linearGradient><linearGradient id="roof" x2="0" y2="1"><stop stop-color="#6f3932"/><stop offset="1" stop-color="#2e3033"/></linearGradient></defs>
+<path fill="url(#stone)" stroke="#d0b88c" stroke-width="4" d="M120 145h360v190H120zM55 120h95v215H55zM450 120h95v215h-95zM220 80h160v255H220z"/>
+<path fill="url(#roof)" stroke="#d0b88c" stroke-width="4" d="M45 122l57-95 58 95zM440 122l57-95 58 95zM205 82l95-75 95 75z"/>
+<path fill="#1b292c" stroke="#d0b88c" stroke-width="4" d="M265 335v-95a35 35 0 0 1 70 0v95z"/>
+<g fill="#f6d88c"><path d="M91 155h22v45H91zM486 155h22v45h-22zM278 120h18v36h-18zM307 120h18v36h-18z"/></g>
+<g fill="#25353a"><path d="M84 154h36v55H84zM478 154h36v55h-36zM273 118h28v43h-28zM302 118h28v43h-28z"/></g>
+<path d="M300 10v-22M288 -2h24" stroke="#e6c47e" stroke-width="5"/>
+</svg></div>
+<div class="ground"></div><div class="fog"></div>
+<div class="topbar"><div class="brand">Ms. Amani's English Adventures</div><button class="sound" id="soundBtn" onclick="toggleSound()">♪ Sound: ON</button></div>
+<div class="wrap">
+<section class="panel" id="intro">
+<div class="kicker">A prehistoric English quest</div><h1>DINOSAUR<br>CASTLE</h1>
+<p class="subtitle">A mysterious castle. A mighty dinosaur guardian. Answer English questions to unlock the gates and claim your explorer's prize!</p>
+<label for="playerName">Explorer name</label><input id="playerName" maxlength="18" placeholder="Type your name">
+<div class="kicker">Choose your explorer</div>
+<div class="choices" style="margin-top:10px">
+<button class="choice selected" id="girlBtn" onclick="chooseGender('girl')">Girl explorer<br><span style="font-size:28px">👩🏻‍🚀</span></button>
+<button class="choice" id="boyBtn" onclick="chooseGender('boy')">Boy explorer<br><span style="font-size:28px">🧑🏻‍🚀</span></button>
+</div>
+<button class="primary" onclick="startGame()">ENTER THE CASTLE</button>
+<p class="small">One player • 10 English challenges • Mixed difficulty</p>
+</section>
+<section class="panel hidden" id="game">
+<div class="hud"><span class="pill" id="welcome">Explorer</span><span class="pill" id="score">⭐ 0 points</span><span class="pill" id="step">Gate 1 / 10</span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="adventure">
+<div class="dino-card"><div><div class="dino-art" id="dino">🦖</div><div class="dino-caption" id="dinoCaption">A mighty guardian watches...</div></div><div class="door" id="door"></div></div>
+<div class="question-card"><div class="kicker">Castle challenge</div><h2 id="category">Vocabulary</h2><div class="question" id="question">Question goes here</div><div class="answers" id="answers"></div><div class="feedback" id="feedback" aria-live="polite"></div></div>
+</div>
+</section>
+<section class="panel hidden reward" id="finish">
+<div class="kicker">Mission accomplished</div><div class="trophy">🏆💎</div><h1>YOU DID IT!</h1><h2 id="winner"></h2><p class="subtitle">You unlocked Dinosaur Castle and earned the Golden Explorer Award!</p>
+<div style="font-size:48px;margin:12px">🦖 👑 🥇</div><p id="finalScore"></p>
+<button class="primary" onclick="location.reload()">PLAY AGAIN</button>
+</section>
+</div></div>
+<script>
+let gender='girl',soundOn=true,ctx=null,idx=0,score=0,player='';
+const questions=[
+{c:'Vocabulary',q:'Which animal is a reptile?',a:['Dinosaur','Dolphin','Eagle'],k:0},
+{c:'Grammar',q:'The T. rex ___ very strong.',a:['are','is','am'],k:1},
+{c:'Prepositions',q:'The egg is ___ the nest.',a:['in','between','under'],k:0},
+{c:'Past tense',q:'Yesterday, the dinosaur ___ loudly.',a:['roars','roared','roaring'],k:1},
+{c:'Vocabulary',q:'What is the opposite of “dangerous”?',a:['Safe','Huge','Hungry'],k:0},
+{c:'Question words',q:'___ did the explorer find? A golden key.',a:['Where','What','Who'],k:1},
+{c:'Plural nouns',q:'One tooth, two ___.',a:['tooths','tooth','teeth'],k:2},
+{c:'Grammar',q:'Look! The baby dinosaurs ___ running.',a:['is','are','am'],k:1},
+{c:'Sentence order',q:'Choose the correct sentence.',a:['The castle is old.','Old is castle the.','Castle the old is.'],k:0},
+{c:'Reading',q:'“The dinosaur is huge, but it is gentle.” What does gentle mean?',a:['Kind and calm','Very fast','Very noisy'],k:0}
+];
+function chooseGender(g){gender=g;document.getElementById('girlBtn').classList.toggle('selected',g==='girl');document.getElementById('boyBtn').classList.toggle('selected',g==='boy')}
+function audio(){if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume();return ctx}
+function tone(freq,dur,type='sine',vol=.12,when=0){if(!soundOn)return;let c=audio(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(freq,c.currentTime+when);g.gain.setValueAtTime(.001,c.currentTime+when);g.gain.exponentialRampToValueAtTime(vol,c.currentTime+when+.02);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+when+dur);o.connect(g);g.connect(c.destination);o.start(c.currentTime+when);o.stop(c.currentTime+when+dur+.03)}
+function noise(dur,vol=.15,filter=500,when=0){if(!soundOn)return;let c=audio(),n=Math.floor(c.sampleRate*dur),b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);let s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=b;f.type='lowpass';f.frequency.value=filter;g.gain.value=vol;s.connect(f);f.connect(g);g.connect(c.destination);s.start(c.currentTime+when)}
+function roar(){if(!soundOn)return;let c=audio(),o=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter();o.type='sawtooth';o.frequency.setValueAtTime(95,c.currentTime);o.frequency.exponentialRampToValueAtTime(34,c.currentTime+1.15);f.type='lowpass';f.frequency.value=260;g.gain.setValueAtTime(.001,c.currentTime);g.gain.linearRampToValueAtTime(.22,c.currentTime+.12);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+1.3);o.connect(f);f.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+1.35);noise(.9,.09,240,.1)}
+function footsteps(){for(let i=0;i<3;i++){tone(58-i*5,.16,'sine',.22,i*.22);noise(.12,.1,180,i*.22)}}
+function doorSound(){noise(.65,.18,700);tone(180,.55,'sawtooth',.035,.08);tone(130,.5,'sawtooth',.025,.28)}
+function correctSound(){[523,659,784].forEach((f,i)=>tone(f,.22,'sine',.12,i*.12))}
+function wrongSound(){tone(190,.25,'triangle',.13);tone(150,.3,'triangle',.1,.18)}
+function victory(){[523,659,784,1047].forEach((f,i)=>tone(f,.45,'sine',.13,i*.18));noise(.8,.12,1800,.55)}
+function toggleSound(){soundOn=!soundOn;document.getElementById('soundBtn').textContent='♪ Sound: '+(soundOn?'ON':'OFF');if(soundOn){tone(660,.15)}}
+function startGame(){player=document.getElementById('playerName').value.trim()||'Explorer';audio();document.getElementById('intro').classList.add('hidden');document.getElementById('game').classList.remove('hidden');document.getElementById('welcome').textContent=(gender==='girl'?'👩🏻‍🚀 ':'🧑🏻‍🚀 ')+player;roar();footsteps();showQuestion()}
+function showQuestion(){let q=questions[idx];document.getElementById('category').textContent=q.c;document.getElementById('question').textContent=q.q;document.getElementById('step').textContent='Gate '+(idx+1)+' / '+questions.length;document.getElementById('bar').style.width=(idx/questions.length*100)+'%';document.getElementById('feedback').textContent='';let box=document.getElementById('answers');box.innerHTML='';q.a.forEach((a,i)=>{let b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+a;b.onclick=()=>answer(i,b);box.appendChild(b)})}
+function answer(i,btn){let q=questions[idx],buttons=[...document.querySelectorAll('.answer')];buttons.forEach(b=>b.disabled=true);if(i===q.k){btn.classList.add('correct');score+=10;document.getElementById('score').textContent='⭐ '+score+' points';document.getElementById('feedback').textContent='Correct! The gate is opening!';correctSound();doorSound();document.getElementById('door').classList.add('open');document.getElementById('dinoCaption').textContent='The guardian approves!';setTimeout(()=>{idx++;if(idx>=questions.length)finishGame();else{document.getElementById('door').classList.remove('open');showQuestion();footsteps()}},1050)}else{btn.classList.add('wrong');buttons[q.k].classList.add('correct');document.getElementById('feedback').textContent='Not quite! Try the next challenge.';wrongSound();setTimeout(()=>{idx++;if(idx>=questions.length)finishGame();else showQuestion()},1300)}}
+function finishGame(){document.getElementById('game').classList.add('hidden');document.getElementById('finish').classList.remove('hidden');document.getElementById('winner').textContent=player+', you are a Dinosaur Castle Champion!';document.getElementById('finalScore').textContent='Your score: '+score+' / 100 points';document.getElementById('bar').style.width='100%';victory()}
+</script>
+</body></html>
