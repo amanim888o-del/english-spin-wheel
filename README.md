@@ -18,3 +18,5 @@
 [Play Space Mission](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_space_mission.html)
 ### 8. Dinosaur Castle
 [Play Dinosaur Castle](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_dinosaur_castle.html)
+### 9. Underwater Adventure
+[Play Underwater Adventure](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_underwater_adventure.html)
