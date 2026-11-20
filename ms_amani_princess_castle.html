@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ms. Amani's Princess Castle Quest</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:15px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#3e3157;background:linear-gradient(135deg,#fce4f1,#e9e2ff 55%,#fff0c9);min-height:100vh}.wrap{max-width:850px;margin:auto}header{text-align:center;padding:12px 6px 20px}.brand{display:inline-block;background:#fff;border:3px solid white;border-radius:20px;padding:8px 17px;color:#8556b2;font-weight:950;box-shadow:0 5px 0 #d8c8f0}h1{font-size:clamp(2rem,6vw,3.1rem);margin:14px 0 4px}.sub{font-weight:750;color:#78688f}.panel{background:#fffefa;border:3px solid white;border-radius:28px;padding:clamp(18px,4vw,30px);box-shadow:0 14px 32px #68517e20;margin-bottom:20px}h2{margin:0 0 8px}.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.level{cursor:pointer;border:3px solid #e5d5fa;background:#f7f0ff;color:#65458e;border-radius:18px;padding:14px 8px;font-weight:950;font-size:1rem;box-shadow:0 5px 0 #d8c7ef}.level small{display:block;color:#887a9d;margin-top:4px}.level.selected{background:#e8f8ef;border-color:#9bd7b1;color:#39734f;transform:translateY(3px);box-shadow:0 2px 0 #9bd7b1}input{width:100%;padding:13px;border:2px solid #e4d4f5;border-radius:13px;font:inherit;margin:7px 0 12px}.primary,.sound,.answer,.next{font:inherit;font-weight:900;border:0;cursor:pointer;border-radius:16px}.primary{background:linear-gradient(100deg,#b17be0,#f18bb7);color:white;padding:14px 24px;box-shadow:0 5px 0 #bd83c9;font-size:1.05rem}.primary:active,.answer:active{transform:translateY(3px)}.center{text-align:center}.hidden{display:none!important}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.stats{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#f2eaff;color:#65478e;border-radius:13px;padding:8px 12px;font-weight:900}.sound{background:#f6edff;color:#7950a5;border:2px solid #e2cff6;padding:9px 13px}.progress{height:12px;background:#eee6f7;border-radius:20px;overflow:hidden;margin:14px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,#b77ee3,#f38eb9,#ffd06d);transition:width .3s}.castle{height:200px;border-radius:22px;background:linear-gradient(#b9e9fa 0 65%,#9bdcaa 65%);position:relative;overflow:hidden;border:3px solid white;margin:15px 0}.sun{position:absolute;right:9%;top:13px;font-size:40px}.cloud{position:absolute;left:8%;top:17px;font-size:38px}.castlebuilding{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);font-size:105px;filter:drop-shadow(0 4px 2px #76558a30)}.flag{position:absolute;right:19%;bottom:48px;font-size:35px}.path{position:absolute;bottom:0;width:100%;height:25px;background:#d7b58d;border-top:4px solid #fff}.tag{text-align:center;text-transform:uppercase;letter-spacing:2px;color:#a45eae;font-weight:950;margin:8px}.question{text-align:center;font-size:clamp(1.2rem,4vw,1.7rem);font-weight:950;margin:12px 0 18px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px}.answer{padding:15px 12px;text-align:left;background:#f7f0ff;color:#594078;border:3px solid #e3d5f5;box-shadow:0 4px 0 #d8c8ee;font-size:1rem}.answer.correct{background:#e4f8e9;border-color:#8bd09b;color:#317448}.answer.wrong{background:#ffe5e9;border-color:#f1a0b1;color:#9a3f58}.answer:disabled{opacity:1}.feedback{text-align:center;min-height:32px;font-weight:900;margin:14px 0}.next{display:none;background:#65bd83;color:white;padding:13px 22px;box-shadow:0 5px 0 #439a61;margin:0 auto}.crowns{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0}.crown{font-size:27px;background:#fff5d9;border:2px solid #f0d99a;border-radius:13px;padding:7px}.finalicon{font-size:70px}footer{text-align:center;color:#806b91;font-weight:850;padding:10px}@media(max-width:560px){body{padding:10px}.levels{grid-template-columns:1fr}.level{padding:11px}.answers{grid-template-columns:1fr}.castle{height:170px}.panel{border-radius:23px}}
+</style></head>
+<body><div class="wrap">
+<header><div class="brand">MS. AMANI'S ENGLISH GAMES</div><h1>🏰 Princess Castle Quest</h1><div class="sub">Unlock magical rooms, answer English questions, and collect royal crowns!</div></header>
+<section class="panel" id="welcome">
+<h2>Welcome, Royal Explorer!</h2>
+<p>The castle has 10 magical rooms. Answer English questions to unlock each room and earn crowns. Every correct answer is worth <b>10 points</b>!</p>
+<label for="player"><b>Your royal name</b></label><input id="player" maxlength="24" placeholder="Enter your name">
+<b>Choose your level:</b>
+<div class="levels">
+<button class="level selected" data-level="easy">🌸 Easy<small>Royal Beginners</small></button>
+<button class="level" data-level="medium">💎 Medium<small>Castle Adventurers</small></button>
+<button class="level" data-level="advanced">👑 Advanced<small>Royal Scholars</small></button>
+</div><div class="center"><button class="primary" id="start">ENTER THE CASTLE</button></div>
+</section>
+<section class="panel hidden" id="game">
+<div class="top"><div class="stats"><span class="pill" id="count">Room 1/10</span><span class="pill" id="score">⭐ 0 points</span><span class="pill" id="crownsCount">👑 0 crowns</span></div><button class="sound" id="sound">🔊 Sound ON</button></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="castle"><div class="sun">☀️</div><div class="cloud">☁️</div><div class="castlebuilding">🏰</div><div class="flag">🚩</div><div class="path"></div></div>
+<div class="crowns" id="crowns"></div>
+<div class="tag" id="category">Grammar</div><div class="question" id="question"></div>
+<div class="answers" id="answers"></div><div class="feedback" id="feedback" aria-live="polite">Choose the best answer!</div>
+<button class="next" id="next">UNLOCK NEXT ROOM →</button>
+</section>
+<section class="panel center hidden" id="finish"><div class="finalicon">👑🏰</div><h2 id="finishTitle">The castle is yours!</h2><p id="finishText"></p><div class="pill" id="finalScore" style="display:inline-block;font-size:1.2rem">⭐ 0 / 100</div><p id="correctCount"></p><p id="rank"></p><button class="primary" id="again">PLAY AGAIN</button></section>
+<footer>Made with care by Ms. Amani</footer></div>
+<script>
+const bank={
+easy:[
+["Vocabulary","Which animal is known as the king of the jungle?","Lion","Rabbit","Horse","Sheep",0],
+["Colors","What color is the sky on a clear day?","Green","Blue","Pink","Brown",1],
+["Grammar","The princess ___ happy.","am","are","is","be",2],
+["Family","Your mother's mother is your ___.","aunt","sister","grandmother","cousin",2],
+["Plural nouns","What is the plural of “child”?","childs","children","childes","childrens",1],
+["Opposites","What is the opposite of “beautiful”?","Pretty","Ugly","Lovely","Cute",1],
+["Articles","There is ___ orange on the table.","a","an","are","some",1],
+["Verbs","Birds ___ in the sky.","fly","flies","flying","flied",0],
+["Prepositions","The crown is ___ the box.","under","between of","at to","from",0],
+["Spelling","Choose the correct spelling.","Princess","Princes","Princses","Princiss",0]],
+medium:[
+["Present simple","The queen ___ tea every morning.","drink","drinks","drinking","drank",1],
+["Past simple","The knight ___ the dragon yesterday.","fight","fights","fought","fighting",2],
+["Vocabulary","A person who protects a king or queen is a ___.","guard","baker","dentist","farmer",0],
+["Comparatives","A castle is usually ___ than a cottage.","large","larger","largest","more larger",1],
+["Pronouns","Lina and I are friends. ___ play together.","They","We","She","It",1],
+["Question words","___ does the king live? In the castle.","Who","Where","When","Why",1],
+["Countable nouns","Which word is countable?","gold","water","crown","sugar",2],
+["Modal verbs","You ___ be kind to others.","should","shouldn't","mustn't to","can to",0],
+["Vocabulary","“Brave” means ___.","afraid","courageous","sleepy","careless",1],
+["First conditional","If it rains, we ___ inside.","stay","stayed","will stay","staying",2]],
+advanced:[
+["Future perfect","By midnight, the princess ___ the letter.","will write","will have written","has wrote","would writing",1],
+["Passive voice","The royal invitations ___ yesterday.","sent","were sent","are sending","send",1],
+["Conditionals","If I were the queen, I ___ a grand library.","build","will build","would build","built",2],
+["Vocabulary","What does “magnificent” mean?","Very ordinary","Extremely beautiful or impressive","Quite tiny","A little noisy",1],
+["Reported speech","“I can help,” he said. He said that he ___ help.","can","could","will","may",1],
+["Subject–verb agreement","Neither the prince nor his friends ___ ready.","is","was","are","has",2],
+["Word formation","The adjective form of “mystery” is ___.","mysterious","mysteriously","mysteryful","mystify",0],
+["Gerunds","She enjoys ___ stories about castles.","read","to read","reading","reads",2],
+["Quantifiers","There is ___ evidence to solve the mystery.","many","a few","little","several",2],
+["Vocabulary","A “benevolent” ruler is ___.","kind and generous","cruel and unfair","very forgetful","always nervous",0]]
+};
+let level="easy",qs=[],idx=0,score=0,correct=0,enabled=true,locked=false,ctx;
+const el=id=>document.getElementById(id);
+document.querySelectorAll(".level").forEach(b=>b.onclick=()=>{document.querySelectorAll(".level").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");level=b.dataset.level;tone(500,.08)});
+function tone(f,d=.14,type="sine",delay=0){if(!enabled)return;try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();let o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.055,ctx.currentTime+delay);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+delay+d);o.connect(g);g.connect(ctx.destination);o.start(ctx.currentTime+delay);o.stop(ctx.currentTime+delay+d)}catch(e){}}
+function good(){tone(660);tone(880,.18,"sine",.14)}function bad(){tone(190,.22,"triangle")}function fanfare(){[523,659,784,1047].forEach((f,i)=>tone(f,.25,"sine",i*.15))}
+el("sound").onclick=()=>{enabled=!enabled;el("sound").textContent=enabled?"🔊 Sound ON":"🔇 Sound OFF";if(enabled)tone(600)};
+el("start").onclick=()=>{qs=bank[level].map(x=>x.slice());idx=0;score=0;correct=0;el("welcome").classList.add("hidden");el("finish").classList.add("hidden");el("game").classList.remove("hidden");el("score").textContent="⭐ 0 points";el("crownsCount").textContent="👑 0 crowns";el("crowns").innerHTML="";tone(520);tone(780,.2,"sine",.15);render()};
+function render(){locked=false;let q=qs[idx];el("count").textContent=`Room ${idx+1}/10`;el("bar").style.width=idx*10+"%";el("category").textContent=q[0];el("question").textContent=q[1];el("feedback").textContent="Choose the best answer!";el("next").style.display="none";el("answers").innerHTML="";q.slice(2,6).forEach((v,i)=>{let b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+i)+". "+v;b.onclick=()=>choose(i,b);el("answers").appendChild(b)})}
+function choose(n,btn){if(locked)return;locked=true;let q=qs[idx],right=q[6];[...el("answers").children].forEach((b,i)=>{b.disabled=true;if(i===right)b.classList.add("correct")});if(n===right){score+=10;correct++;el("feedback").textContent="Wonderful! Room unlocked! +10 points and one crown!";good();el("crowns").insertAdjacentHTML("beforeend",'<span class="crown">👑</span>')}else{btn.classList.add("wrong");el("feedback").textContent="Good try! The correct answer is "+String.fromCharCode(65+right)+". Look for the green answer.";bad()}el("score").textContent="⭐ "+score+" points";el("crownsCount").textContent="👑 "+correct+" crowns";el("bar").style.width=(idx+1)*10+"%";el("next").style.display="block"}
+el("next").onclick=()=>{idx++;if(idx===10){finish();return}render();tone(490,.07)};
+function finish(){el("game").classList.add("hidden");el("finish").classList.remove("hidden");let name=el("player").value.trim()||"Explorer";el("finishTitle").textContent="Congratulations, "+name+"!";el("finishText").textContent="You explored all 10 rooms of Princess Castle.";el("finalScore").textContent="⭐ "+score+" / 100 points";el("correctCount").textContent="Correct answers: "+correct+" out of 10  |  Crowns collected: "+correct+" 👑";el("rank").textContent=score===100?"Perfect royal champion! You earned every crown!":score>=70?"Royal English Star! Wonderful work!":score>=50?"Brave castle explorer! Keep practising!":"Every royal scholar learns step by step. Try again and collect more crowns!";fanfare()}
+el("again").onclick=()=>{el("finish").classList.add("hidden");el("welcome").classList.remove("hidden")};
+</script></body></html>
