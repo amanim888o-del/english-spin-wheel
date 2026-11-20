@@ -8,3 +8,5 @@
 
 ### 3. Spin Wheel
 [Play Spin Wheel](https://amanim888o-del.github.io/english-spin-wheel/)
+### 4. Treasure Hunt
+[Play Treasure Hunt](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_treasure_hunt.html)
