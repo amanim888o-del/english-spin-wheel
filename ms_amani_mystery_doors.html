@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms. Amani's Mystery Doors</title>
+<style>
+:root{--gold:#ffd878;--cream:#fff8e8;--ink:#20233d;--violet:#3b285e}
+*{box-sizing:border-box}
+body{margin:0;font-family:Georgia,'Trebuchet MS',sans-serif;color:#fff;background:#100d25;min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+#app{min-height:100vh;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 5%,#57427c 0,#251c42 42%,#100d25 100%)}
+.stars{position:fixed;inset:0;pointer-events:none;opacity:.75;background-image:radial-gradient(2px 2px at 12% 18%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 78% 13%,#ffe8a6 50%,transparent 60%),radial-gradient(2px 2px at 89% 52%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 27% 68%,#fff 50%,transparent 60%),radial-gradient(2px 2px at 58% 83%,#ffe8a6 50%,transparent 60%),radial-gradient(1px 1px at 43% 31%,#fff 50%,transparent 60%);background-size:360px 310px}
+.wrap{width:min(980px,94vw);margin:auto;padding:24px 0 40px;position:relative}
+.brand{text-align:center;color:#ffe5a0;letter-spacing:3px;text-transform:uppercase;font:700 12px 'Trebuchet MS',sans-serif}
+h1{font-size:clamp(32px,6vw,58px);line-height:1.05;text-align:center;margin:12px 0 8px;text-shadow:0 5px 25px #090615}
+.subtitle{text-align:center;color:#e2d9f2;margin:0 auto 24px;max-width:620px;font:15px/1.6 'Trebuchet MS',sans-serif}
+.panel{background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.055));border:1px solid rgba(255,226,160,.35);box-shadow:0 22px 70px #08061588,inset 0 1px #ffffff30;border-radius:24px;padding:clamp(18px,4vw,34px);backdrop-filter:blur(10px)}
+label{display:block;font:700 13px 'Trebuchet MS',sans-serif;color:#ffe5a0;margin:15px 0 7px}
+input{width:100%;padding:14px 15px;border-radius:12px;border:1px solid #b7a5d2;background:#fffaf0;color:#29213d;outline:none}
+.gender{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gender button{border:1px solid #c7b4df;background:#ffffff12;color:white;border-radius:15px;padding:15px 10px;font-weight:bold}
+.gender button.selected{background:#ffe5a0;color:#34234d;border-color:#ffe5a0;box-shadow:0 0 0 3px #ffe5a033}
+.primary{border:0;border-radius:999px;padding:14px 25px;background:linear-gradient(135deg,#ffe9a8,#e8ae4e);color:#38254b;font-weight:900;box-shadow:0 7px 0 #9b642e,0 12px 28px #08061566;transition:.15s}
+.primary:active{transform:translateY(4px);box-shadow:0 3px 0 #9b642e}
+.center{text-align:center;margin-top:22px}
+.small{font:13px/1.5 'Trebuchet MS',sans-serif;color:#d6cce7}
+.hero-icon{text-align:center;font-size:58px;margin:10px}
+.topline{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px;font:700 13px 'Trebuchet MS',sans-serif;color:#ffe5a0}
+.progress{height:9px;background:#ffffff20;border-radius:99px;overflow:hidden;margin:12px 0 24px}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#f8d77e,#fff2c3);transition:width .4s}
+.doors{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(9px,3vw,22px);margin:25px 0}
+.door-card{background:#17132d88;border:1px solid #ffffff20;border-radius:18px;padding:12px 8px 15px;text-align:center}
+.door{height:clamp(145px,29vw,230px);max-width:175px;margin:auto;position:relative;border:5px solid #bd8749;border-bottom:0;border-radius:85px 85px 7px 7px;background:linear-gradient(90deg,#432c58,#81506f 48%,#382449);box-shadow:inset 8px 0 15px #ffffff18,inset -8px 0 18px #120c24,0 9px 20px #05040c;display:flex;align-items:center;justify-content:center;transition:.25s}
+.door:before{content:"";position:absolute;inset:12px 12px 0;border:2px solid #d7a65f;border-radius:72px 72px 3px 3px}
+.door:after{content:"";position:absolute;left:50%;top:56%;width:9px;height:9px;border-radius:50%;background:#ffdf83;box-shadow:0 0 12px #ffe49a;transform:translateX(48px)}
+.door span{font-size:34px;z-index:1;text-shadow:0 0 15px #ffe9a0}
+.door-card button{background:none;border:0;color:#ffe5a0;font-weight:bold;padding:12px 4px 0}
+.door-card button:disabled{opacity:.55}
+.door-card.chosen .door{transform:scale(1.04);box-shadow:0 0 0 3px #ffe5a0,0 0 35px #ffdc7b88}
+.door-card.locked{opacity:.45}
+.question{font:700 22px/1.35 'Trebuchet MS',sans-serif;text-align:center;color:#fff7e5;margin:5px 0 20px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.answer{border:1px solid #cbb6e5;background:#ffffff12;color:#fff;border-radius:13px;padding:14px;text-align:left;min-height:55px}
+.answer:hover{background:#ffffff25}
+.answer.correct{background:#28664e;border-color:#8ce1ae}
+.answer.wrong{background:#7a3548;border-color:#ff9dad}
+.feedback{text-align:center;min-height:26px;margin:14px 0;color:#ffe5a0;font:700 14px 'Trebuchet MS',sans-serif}
+.character{display:flex;align-items:center;justify-content:center;gap:12px;margin:15px auto 0;color:#e8def5;font:13px 'Trebuchet MS',sans-serif}
+.avatar{width:58px;height:70px;position:relative}
+.head{position:absolute;top:2px;left:15px;width:29px;height:31px;border-radius:48% 48% 45% 45%;background:#d99b72;border:2px solid #6a3c42}
+.hair{position:absolute;top:-3px;left:11px;width:37px;height:24px;background:#3b2131;border-radius:50% 50% 35% 35%;z-index:2}
+.girl .hair{height:48px;width:43px;left:8px;border-radius:48% 48% 35% 35%;box-shadow:0 15px 0 -2px #3b2131}
+.boy .hair{height:17px;top:-5px;border-radius:60% 60% 20% 20%}
+.body{position:absolute;top:32px;left:9px;width:42px;height:36px;background:#8a72d6;border:2px solid #d8c5ff;border-radius:13px 13px 5px 5px}
+.girl .body{background:#df78a7;border-radius:14px 14px 8px 8px}
+.face{position:absolute;z-index:3;top:15px;left:21px;color:#3a2030;font-size:12px}
+.treasure{font-size:65px;text-align:center;filter:drop-shadow(0 0 20px #ffd65e);animation:float 2s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-9px)}}
+.prize{display:flex;justify-content:center;gap:12px;font-size:42px;margin:18px}
+.hidden{display:none!important}
+@media(max-width:560px){.answers{grid-template-columns:1fr}.wrap{padding-top:18px}.panel{border-radius:19px}.doors{gap:7px}.door-card{padding:8px 4px 10px}.door{border-width:4px}.door-card button{font-size:12px}}
+</style>
+</head>
+<body><div id="app"><div class="stars"></div><main class="wrap">
+<div class="brand">Ms. Amani's English Adventures</div>
+<h1>THE MYSTERY DOORS</h1>
+<p class="subtitle">Three ancient doors. Secret rooms. Clever English challenges. One incredible prize waiting for you!</p>
+
+<section id="welcome" class="panel">
+<div class="hero-icon">🗝️ ✨ 🏰</div>
+<h2 style="text-align:center;color:#ffe5a0;margin:0 0 8px">Welcome, brave explorer!</h2>
+<p class="subtitle" style="margin-bottom:14px">First, tell us who is entering the mysterious castle.</p>
+<label for="playerName">YOUR NAME</label>
+<input id="playerName" maxlength="22" placeholder="Type your name here..." autocomplete="off">
+<label>CHOOSE YOUR CHARACTER</label>
+<div class="gender">
+<button id="girlBtn" type="button" onclick="setGender('girl')">👧 Girl</button>
+<button id="boyBtn" type="button" onclick="setGender('boy')">👦 Boy</button>
+</div>
+<div class="center"><button class="primary" onclick="begin()">ENTER THE CASTLE</button></div>
+<p id="startError" class="feedback"></p>
+<p class="small" style="text-align:center">Answer correctly to unlock each room. You have 3 magical doors to open!</p>
+</section>
+
+<section id="game" class="hidden">
+<div class="topline"><span id="welcomeName"></span><span id="roomCount">ROOM 1 OF 3</span><span id="score">⭐ 0 POINTS</span></div>
+<div class="progress"><span id="progressBar"></span></div>
+<div class="panel">
+<div id="avatarSpot" class="character"></div>
+<h2 id="roomTitle" style="text-align:center;color:#ffe5a0;margin:10px 0 4px">Choose a mysterious door</h2>
+<p id="roomHint" class="subtitle" style="margin-bottom:8px">Which door will you open?</p>
+<div id="doorArea" class="doors">
+<div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(0)">DOOR ONE</button></div>
+<div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(1)">DOOR TWO</button></div>
+<div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(2)">DOOR THREE</button></div>
+</div>
+<div id="quiz" class="hidden">
+<div class="question" id="question"></div>
+<div class="answers" id="answers"></div>
+<div class="feedback" id="feedback"></div>
+<div class="center"><button id="nextBtn" class="primary hidden" onclick="nextRoom()">CONTINUE TO THE NEXT ROOM</button></div>
+</div>
+</div>
+</section>
+
+<section id="finish" class="panel hidden" style="text-align:center">
+<div class="treasure">🏆</div>
+<h2 style="font-size:clamp(27px,5vw,42px);color:#ffe5a0;margin:8px 0">YOU DID IT, <span id="finalName"></span>!</h2>
+<p class="subtitle">You unlocked every mystery door and proved that you are an English champion!</p>
+<div id="finalAvatar" class="character"></div>
+<div class="prize">💎 💰 👑 ✨</div>
+<h2 style="color:#ffe5a0">YOUR TREASURE PRIZE</h2>
+<p style="font:700 19px 'Trebuchet MS',sans-serif">The Golden English Explorer Certificate!</p>
+<p id="finalScore" class="small"></p>
+<p style="font-size:17px;color:#ffe5a0;font-weight:bold">Ms. Amani is proud of you!</p>
+<button class="primary" onclick="location.reload()">PLAY AGAIN</button>
+</section>
+</main></div>
+<script>
+const rooms=[
+{title:"The Enchanted Library",hint:"A whisper comes from the bookshelves...",q:"Choose the correct sentence:",a:["She is reading a book.","She are reading a book.","She am reading a book."],correct:0,explain:"Great! We say: She is reading a book."},
+{title:"The Dragon's Hall",hint:"A friendly dragon guards the next door...",q:"What is the opposite of “cold”?",a:["Wet","Hot","Tall"],correct:1,explain:"Wonderful! The opposite of cold is hot."},
+{title:"The Royal Treasure Room",hint:"The final lock needs one last answer...",q:"Complete the sentence: They ___ happy.",a:["is","am","are"],correct:2,explain:"Amazing! We say: They are happy."}
+];
+let gender="",name="",room=0,score=0,done=false;
+function setGender(g){gender=g;document.getElementById('girlBtn').classList.toggle('selected',g==='girl');document.getElementById('boyBtn').classList.toggle('selected',g==='boy')}
+function avatarHTML(){return `<div class="avatar ${gender}"><div class="hair"></div><div class="head"></div><div class="face">•‿•</div><div class="body"></div></div><span>${name}</span>`}
+function begin(){name=document.getElementById('playerName').value.trim();if(!name||!gender){document.getElementById('startError').textContent="Please enter your name and choose Girl or Boy.";return}document.getElementById('welcome').classList.add('hidden');document.getElementById('game').classList.remove('hidden');document.getElementById('welcomeName').textContent="EXPLORER: "+name.toUpperCase();document.getElementById('avatarSpot').innerHTML=avatarHTML();updateTop()}
+function updateTop(){document.getElementById('roomCount').textContent=`ROOM ${room+1} OF 3`;document.getElementById('score').textContent=`⭐ ${score} POINTS`;document.getElementById('progressBar').style.width=(room/3*100)+'%'}
+function openDoor(i){if(done)return;document.querySelectorAll('.door-card').forEach((c,j)=>{c.classList.toggle('chosen',j===i);c.classList.toggle('locked',j!==i);c.querySelector('button').disabled=true});const r=rooms[room];document.getElementById('roomTitle').textContent=r.title;document.getElementById('roomHint').textContent=r.hint;document.getElementById('quiz').classList.remove('hidden');document.getElementById('question').textContent=r.q;document.getElementById('feedback').textContent="";document.getElementById('nextBtn').classList.add('hidden');document.getElementById('answers').innerHTML=r.a.map((a,j)=>`<button class="answer" onclick="answer(${j},this)">${String.fromCharCode(65+j)}. ${a}</button>`).join('')}
+function answer(i,el){if(done||document.getElementById('nextBtn').dataset.ready==='yes')return;const r=rooms[room];if(i===r.correct){score+=10;document.querySelectorAll('.answer').forEach(b=>b.disabled=true);el.classList.add('correct');document.getElementById('feedback').textContent="✨ "+r.explain+" +10 points!";document.getElementById('nextBtn').classList.remove('hidden');document.getElementById('nextBtn').dataset.ready='yes';document.getElementById('score').textContent=`⭐ ${score} POINTS`; }else{el.classList.add('wrong');el.disabled=true;document.getElementById('feedback').textContent="Not quite! Try another answer. You can do it!";}}
+function nextRoom(){document.getElementById('nextBtn').dataset.ready='';room++;if(room>=3){finish();return}document.getElementById('quiz').classList.add('hidden');document.getElementById('roomTitle').textContent="Choose a mysterious door";document.getElementById('roomHint').textContent="A new secret is waiting behind one of these doors...";document.getElementById('doorArea').classList.remove('hidden');document.getElementById('doorArea').innerHTML=[1,2,3].map((n)=>`<div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(${n-1})">DOOR ${["ONE","TWO","THREE"][n-1]}</button></div>`).join('');document.getElementById('quiz').classList.add('hidden');updateTop()}
+function finish(){document.getElementById('game').classList.add('hidden');document.getElementById('finish').classList.remove('hidden');document.getElementById('finalName').textContent=name.toUpperCase();document.getElementById('finalAvatar').innerHTML=avatarHTML();document.getElementById('finalScore').textContent=`Final score: ${score} / 30 points`;document.getElementById('progressBar').style.width='100%';try{const C=window.AudioContext||window.webkitAudioContext;if(C){const c=new C();[523,659,784,1046].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.001,c.currentTime+i*.16);g.gain.exponentialRampToValueAtTime(.12,c.currentTime+i*.16+.03);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+i*.16+.22);o.start(c.currentTime+i*.16);o.stop(c.currentTime+i*.16+.23)})}}catch(e){}}
+</script>
+</body></html>
