@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms. Amani's Reward Room</title>
+<style>
+:root{--purple:#7546b8;--pink:#ff6da9;--gold:#ffc94d;--ink:#49345f}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#ffe0ef,#e6e2ff 52%,#d7f7ff);padding:18px}
+.wrap{max-width:1000px;margin:auto}
+header{text-align:center;padding:10px}
+.brand{display:inline-block;background:#ffffffc9;border:2px solid white;border-radius:999px;padding:8px 20px;font-weight:900;letter-spacing:1.5px;color:#9a4c9e}
+h1{font-size:clamp(2rem,7vw,4rem);margin:12px 0 4px;color:#7442b5;text-shadow:2px 3px white}
+.sub{font-weight:700;color:#806994}
+.panel{background:#ffffffdf;border:3px solid white;border-radius:28px;padding:22px;margin:15px 0;box-shadow:0 12px 32px #7355a52b}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end}
+label{display:block;font-weight:900;margin:0 0 7px}
+input,select{width:100%;padding:14px;border:2px solid #dfc9f5;border-radius:15px;font:inherit;background:white;color:var(--ink)}
+button{font:inherit;font-weight:900;border:0;border-radius:16px;padding:14px 18px;cursor:pointer;transition:transform .12s}
+button:active{transform:scale(.97)}
+.primary{background:linear-gradient(120deg,#ff6da9,#9b70e8);color:white;box-shadow:0 5px 0 #8154bd}
+.secondary{background:#fff0b8;color:#76551c;border:2px solid #ffdc6c}
+.toolbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.reward-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}
+.reward{background:#f5eaff;border:3px solid transparent;color:#65467f;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.reward span{font-size:2.4rem}
+.reward.selected{border-color:#ff78ae;background:#fff0f6;box-shadow:0 0 0 3px #ffd1e3}
+.stage{display:none;text-align:center;min-height:390px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 40%,#fff 0,#fff8fc 35%,#f2eaff 100%)}
+.stage.show{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.stage:before,.stage:after{content:"✦　✧　✦　✧　✦";position:absolute;color:#e5b83e;font-size:1.7rem;opacity:.65;top:22px;left:0;right:0}
+.stage:after{top:auto;bottom:22px}
+.big-reward{font-size:clamp(6rem,22vw,11rem);line-height:1.15;filter:drop-shadow(0 8px 5px #d4a4d855);animation:pop .7s cubic-bezier(.2,1.5,.5,1)}
+.student{font-size:clamp(2rem,7vw,3.5rem);font-weight:1000;color:#7c45bb;margin:10px}
+.message{font-size:clamp(1.1rem,4vw,1.6rem);font-weight:900;color:#a24d91}
+.reward-name{font-size:1.1rem;font-weight:900;background:#fff0b8;padding:9px 18px;border-radius:999px;margin-top:12px}
+@keyframes pop{0%{transform:scale(.2) rotate(-15deg);opacity:0}75%{transform:scale(1.15) rotate(5deg)}100%{transform:scale(1);opacity:1}}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:10}
+.confetti i{position:absolute;top:-30px;width:10px;height:18px;animation:fall 2.8s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+.hint{text-align:center;font-size:.9rem;color:#806994;margin-top:12px}
+@media(max-width:650px){body{padding:9px}.panel{padding:14px}.controls{grid-template-columns:1fr}.reward-grid{grid-template-columns:repeat(2,1fr)}.reward:last-child{grid-column:span 2}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="brand">MS. AMANI'S CLASSROOM</div>
+<h1>🏆 Reward Room 🌟</h1>
+<div class="sub">A little reward for a wonderful effort!</div>
+</header>
+<section class="panel" id="controlsPanel">
+ <div class="controls">
+  <div><label for="studentName">Student's name</label><input id="studentName" maxlength="28" placeholder="Write the student's name"></div>
+  <div><label for="messageChoice">Choose a message</label><select id="messageChoice">
+   <option value="Amazing work!">Amazing work!</option>
+   <option value="You are a superstar!">You are a superstar!</option>
+   <option value="Excellent effort!">Excellent effort!</option>
+   <option value="You made it! Keep shining!">You made it! Keep shining!</option>
+   <option value="I'm proud of you!">I'm proud of you!</option>
+  </select></div>
+ </div>
+ <h3 style="margin:20px 0 0;text-align:center">Choose a reward</h3>
+ <div class="reward-grid" id="rewardGrid">
+  <button class="reward selected" data-emoji="🏆" data-name="Gold Trophy"><span>🏆</span>Gold Trophy</button>
+  <button class="reward" data-emoji="👑" data-name="Superstar Crown"><span>👑</span>Superstar Crown</button>
+  <button class="reward" data-emoji="🥇" data-name="Gold Medal"><span>🥇</span>Gold Medal</button>
+  <button class="reward" data-emoji="🌟" data-name="Shining Star"><span>🌟</span>Shining Star</button>
+  <button class="reward" data-emoji="🎓" data-name="Little Champion"><span>🎓</span>Little Champion</button>
+ </div>
+ <div class="toolbar">
+  <button class="primary" id="showBtn">🎉 SHOW REWARD</button>
+  <button class="secondary" id="soundBtn">🔊 Sound ON</button>
+ </div>
+ <div class="hint">Choose the reward, then show it on your screen for the student.</div>
+</section>
+<section class="panel stage" id="stage">
+ <div class="big-reward" id="bigReward">🏆</div>
+ <div class="student" id="shownName">Amazing Student!</div>
+ <div class="message" id="shownMessage">Amazing work!</div>
+ <div class="reward-name" id="shownReward">Gold Trophy</div>
+ <div class="toolbar">
+  <button class="primary" id="againBtn">GIVE ANOTHER REWARD</button>
+  <button class="secondary" id="fullBtn">⛶ FULL SCREEN</button>
+ </div>
+</section>
+<footer style="text-align:center;font-weight:900;color:#856c9b;padding:12px">Made with love by Ms. Amani</footer>
+</div>
+<div class="confetti" id="confetti"></div>
+<script>
+let selected={emoji:"🏆",name:"Gold Trophy"},soundOn=true,ctx;
+const $=id=>document.getElementById(id);
+function beep(freq,dur,delay=0,type="sine"){
+ if(!soundOn)return;
+ try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();if(ctx.state==="suspended")ctx.resume();
+ const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,ctx.currentTime+delay);
+ g.gain.setValueAtTime(.09,ctx.currentTime+delay);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+delay+dur);
+ o.connect(g);g.connect(ctx.destination);o.start(ctx.currentTime+delay);o.stop(ctx.currentTime+delay+dur);
+ }catch(e){}
+}
+function celebrate(){[523,659,784,1047,1318].forEach((f,i)=>beep(f,.32,i*.12))}
+function makeConfetti(){const box=$("confetti");box.innerHTML="";const colors=["#ff6da9","#ffd34e","#8d70e8","#52c9e8","#68d69a"];
+ for(let i=0;i<75;i++){const p=document.createElement("i");p.style.left=Math.random()*100+"%";p.style.background=colors[i%colors.length];p.style.animationDelay=Math.random()*.8+"s";p.style.transform=`rotate(${Math.random()*180}deg)`;box.appendChild(p)}
+ setTimeout(()=>box.innerHTML="",3800)}
+document.querySelectorAll(".reward").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".reward").forEach(x=>x.classList.remove("selected"));btn.classList.add("selected");
+ selected={emoji:btn.dataset.emoji,name:btn.dataset.name};beep(660,.1);
+}));
+$("showBtn").addEventListener("click",()=>{
+ const name=$("studentName").value.trim()||"Amazing Student";
+ $("bigReward").textContent=selected.emoji;$("shownName").textContent=name+"!";
+ $("shownMessage").textContent=$("messageChoice").value;$("shownReward").textContent=selected.name;
+ $("controlsPanel").style.display="none";$("stage").classList.add("show");celebrate();makeConfetti();
+});
+$("againBtn").addEventListener("click",()=>{$("stage").classList.remove("show");$("controlsPanel").style.display="block";});
+$("soundBtn").addEventListener("click",()=>{soundOn=!soundOn;$("soundBtn").textContent=soundOn?"🔊 Sound ON":"🔇 Sound OFF";if(soundOn)beep(700,.12)});
+$("fullBtn").addEventListener("click",()=>{if(!document.fullscreenElement){document.documentElement.requestFullscreen?.()}else{document.exitFullscreen?.()}});
+</script>
+</body>
+</html>
