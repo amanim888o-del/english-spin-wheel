@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms. Amani's Jungle Safari</title>
+<style>
+:root{--ink:#26324b;--purple:#7654b8;--pink:#ff7ca8;--green:#36b889;--gold:#ffc857;--sky:#a8e8f5}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:linear-gradient(135deg,#d9f7ee,#e7e0ff 52%,#fff0c9);min-height:100vh;padding:18px}
+.wrap{max-width:850px;margin:0 auto}
+header{text-align:center;padding:14px 8px 20px}
+.brand{display:inline-block;background:#fff;border:3px solid #fff;border-radius:24px;padding:8px 18px;color:var(--purple);font-weight:900;letter-spacing:.5px;box-shadow:0 7px 0 #d9cafa}
+h1{font-size:clamp(2rem,6vw,3.2rem);margin:16px 0 4px;line-height:1.08}
+.sub{font-weight:700;color:#66708a}
+.panel{background:rgba(255,255,255,.94);border:3px solid white;border-radius:30px;padding:clamp(18px,4vw,32px);box-shadow:0 15px 35px #6b639022;margin:0 auto 22px}
+h2{margin:0 0 10px;font-size:1.6rem}
+p{line-height:1.5}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.level{border:3px solid #e4d9ff;border-radius:20px;padding:16px 8px;background:#f5f0ff;color:#513c86;font-weight:900;cursor:pointer;font-size:1rem;box-shadow:0 5px 0 #d8c9f6;transition:.15s}
+.level:active,.level.selected{transform:translateY(4px);box-shadow:0 1px 0 #d8c9f6;background:#e6f9ef;border-color:#8cdbb8}
+.level small{display:block;font-weight:650;margin-top:5px;color:#77708d}
+button{font:inherit}
+.primary,.sound,.answer,.next{border:0;cursor:pointer;font-weight:850;border-radius:18px}
+.primary{background:linear-gradient(100deg,#ff80ad,#9874ed);color:white;padding:15px 25px;font-size:1.1rem;box-shadow:0 6px 0 #d9b6ef}
+.primary:active{transform:translateY(4px);box-shadow:0 2px 0 #d9b6ef}
+.sound{background:#f1edff;color:#6548a8;border:2px solid #d9cdfb;padding:10px 15px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.stats{display:flex;gap:9px;flex-wrap:wrap}
+.pill{background:#f0ebff;color:#59428f;border-radius:14px;padding:9px 14px;font-weight:900}
+.progress{height:13px;background:#eee9fa;border-radius:20px;overflow:hidden;margin:12px 0 20px}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#ff79a9,#ffc65c,#48c69b);transition:width .3s}
+.scene{height:190px;border-radius:24px;overflow:hidden;position:relative;background:linear-gradient(#9de5f5 0 72%,#8bd58e 72%);margin:10px 0 20px;border:3px solid #fff}
+.sun{position:absolute;right:9%;top:18px;font-size:42px}
+.cloud{position:absolute;left:12%;top:24px;font-size:36px}
+.tree{position:absolute;bottom:22px;font-size:64px}
+.t1{left:7%}.t2{left:33%}.t3{right:8%}
+.path{position:absolute;bottom:0;height:28px;background:#d7ae75;width:100%;border-top:5px dashed #fff}
+.animal{position:absolute;bottom:18px;left:42%;font-size:56px;transition:left .35s}
+.category{text-transform:uppercase;letter-spacing:2px;color:#9b62b6;font-weight:950;text-align:center;margin:10px 0}
+.question{text-align:center;font-size:clamp(1.25rem,4vw,1.8rem);font-weight:900;margin:10px 0 18px}
+.answers{display:grid;gap:11px}
+.answer{padding:16px 14px;background:#f3efff;border:3px solid #ded2fb;color:#4f3b80;font-size:1.05rem;box-shadow:0 5px 0 #d4c6f2;text-align:left}
+.answer:active{transform:translateY(3px);box-shadow:0 2px 0 #d4c6f2}
+.answer.correct{background:#e0f8ec;border-color:#72cda0;color:#176e4a}
+.answer.wrong{background:#ffe7ed;border-color:#f3a2b7;color:#9b3551}
+.answer:disabled{cursor:default;opacity:1}
+.feedback{text-align:center;min-height:32px;font-weight:900;font-size:1.1rem;margin:14px 0 4px}
+.next{display:none;background:#35b98a;color:#fff;padding:13px 25px;margin:12px auto 0;box-shadow:0 5px 0 #24966d}
+.center{text-align:center}
+.hidden{display:none!important}
+.finish-icon{font-size:70px}
+footer{text-align:center;color:#76658f;font-weight:850;padding:12px}
+@media(max-width:560px){body{padding:10px}.levels{grid-template-columns:1fr}.level{padding:12px}.scene{height:155px}.panel{border-radius:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div class="brand">MS. AMANI'S ENGLISH GAMES</div>
+ <h1>Jungle Safari Adventure</h1>
+ <div class="sub">Explore the jungle. Answer English questions. Find the treasure!</div>
+</header>
+
+<section class="panel" id="welcome">
+ <h2>Welcome, Safari Explorer!</h2>
+ <p>Choose your challenge and get ready for a wild English adventure. Every correct answer earns <b>10 points</b> and takes you closer to the treasure.</p>
+ <label for="player" style="font-weight:800">Explorer's name</label><br>
+ <input id="player" maxlength="22" placeholder="Enter your name" style="width:100%;padding:13px;border:2px solid #ded2fb;border-radius:14px;font:inherit;margin:8px 0 12px">
+ <div style="font-weight:900">Choose your level:</div>
+ <div class="levels">
+  <button class="level selected" data-level="easy">🌱 Easy<small>Young Explorers</small></button>
+  <button class="level" data-level="medium">🌿 Medium<small>Brave Adventurers</small></button>
+  <button class="level" data-level="advanced">🌴 Advanced<small>Jungle Experts</small></button>
+ </div>
+ <div class="center"><button class="primary" id="start">START SAFARI</button></div>
+</section>
+
+<section class="panel hidden" id="game">
+ <div class="topline">
+  <div class="stats"><span class="pill" id="count">Question 1/10</span><span class="pill" id="score">⭐ 0 points</span></div>
+  <button class="sound" id="sound">🔊 Sound ON</button>
+ </div>
+ <div class="progress"><div class="bar" id="bar"></div></div>
+ <div class="scene" aria-label="Jungle adventure scene">
+  <div class="sun">☀️</div><div class="cloud">☁️</div>
+  <div class="tree t1">🌳</div><div class="tree t2">🌴</div><div class="tree t3">🌳</div>
+  <div class="animal" id="animal">🦁</div><div class="path"></div>
+ </div>
+ <div class="category" id="category">Vocabulary</div>
+ <div class="question" id="question"></div>
+ <div class="answers" id="answers"></div>
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+ <button class="next" id="next">NEXT QUESTION →</button>
+</section>
+
+<section class="panel hidden center" id="finish">
+ <div class="finish-icon">🏆</div>
+ <h2 id="finishTitle">Safari Complete!</h2>
+ <p id="finishText"></p>
+ <div class="pill" id="finalScore" style="display:inline-block;font-size:1.25rem;margin:8px">⭐ 0 / 100</div>
+ <p id="rank"></p>
+ <button class="primary" id="again">PLAY AGAIN</button>
+</section>
+<footer>Made with care by Ms. Amani</footer>
+</div>
+<script>
+const bank={
+easy:[
+["Vocabulary","Which animal says “meow”?","A cat","A dog","A cow","A duck",0],
+["Colors","What color is a banana?","Blue","Yellow","Purple","Black",1],
+["Grammar","She ___ my friend.","am","are","is","be",2],
+["Animals","Which animal is the tallest?","Lion","Giraffe","Rabbit","Fox",1],
+["Plural nouns","What is the plural of “book”?","bookes","books","bookies","book",1],
+["Opposites","What is the opposite of “hot”?","Warm","Cold","Big","Fast",1],
+["Articles","I see ___ elephant.","a","an","thee","am",1],
+["Verbs","Birds can ___.","swim in the sky","fly","read","cook",1],
+["Prepositions","The fish is ___ the water.","in","on","at","under of",0],
+["Spelling","Choose the correct spelling.","Beter","Beeter","Better","Bettr",2]],
+medium:[
+["Present simple","My brother ___ football every Friday.","play","plays","playing","played",1],
+["Past simple","Yesterday, we ___ to the zoo.","go","goes","went","going",2],
+["Vocabulary","A person who takes care of sick animals is a ___.","pilot","vet","chef","artist",1],
+["Comparatives","An elephant is ___ than a monkey.","big","bigger","biggest","more big",1],
+["Prepositions","The keys are ___ the table.","between","at","on","into",2],
+["Pronouns","Mona and Sara are sisters. ___ are kind.","We","They","She","It",1],
+["Countable nouns","Which word is countable?","water","rice","apple","milk",2],
+["Question words","___ do you go to school? At 7 o’clock.","Who","When","Why","Which",1],
+["Future","I think it ___ rain tomorrow.","will","did","was","has",0],
+["Vocabulary","“Enormous” means ___.","very small","very noisy","very large","very old",2]],
+advanced:[
+["Conditionals","If I ___ more time, I would learn French.","have","had","will have","has",1],
+["Passive voice","The story ___ by the students yesterday.","writes","is written","was written","wrote",2],
+["Vocabulary","What does “reluctant” mean?","Unwilling","Delighted","Careless","Certain",0],
+["Subject–verb agreement","Neither of the answers ___ correct.","are","were","is","have",2],
+["Reported speech","“I am tired,” she said. She said that she ___ tired.","is","was","has","will be",1],
+["Word formation","The opposite of “possible” is ___.","impossible","unpossible","inpossible","dispossible",0],
+["Grammar","Choose the correct sentence.","He doesn't likes tea.","He don't like tea.","He doesn't like tea.","He not like tea.",2],
+["Quantifiers","There is ___ information in the report.","many","a few","a lot of","several",2],
+["Vocabulary","A “meticulous” person is ___.","careless","very careful","always late","easily bored",1],
+["Future perfect","By next June, she ___ her course.","will complete","will have completed","completed","has completing",1]]
+};
+let level="easy",questions=[],index=0,points=0,soundOn=true,answered=false,audioCtx;
+const $=id=>document.getElementById(id);
+document.querySelectorAll(".level").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll(".level").forEach(x=>x.classList.remove("selected"));
+ b.classList.add("selected");level=b.dataset.level;playTone(480,.08);
+}));
+function tone(freq,duration,type="sine",volume=.055,delay=0){
+ if(!soundOn)return;
+ try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
+ const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;
+ g.gain.setValueAtTime(volume,audioCtx.currentTime+delay);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+delay+duration);
+ o.connect(g);g.connect(audioCtx.destination);o.start(audioCtx.currentTime+delay);o.stop(audioCtx.currentTime+delay+duration);
+ }catch(e){}
+}
+function playTone(f,d){tone(f,d)}
+function correctSound(){tone(660,.12);tone(880,.18,"sine",.05,.13)}
+function wrongSound(){tone(180,.22,"triangle")}
+function winSound(){[523,659,784,1047].forEach((f,i)=>tone(f,.25,"sine",.06,i*.16))}
+$("sound").onclick=()=>{soundOn=!soundOn;$("sound").textContent=soundOn?"🔊 Sound ON":"🔇 Sound OFF";if(soundOn)playTone(600,.1)};
+$("start").onclick=()=>{
+ questions=bank[level].map(q=>q.slice());index=0;points=0;
+ $("welcome").classList.add("hidden");$("finish").classList.add("hidden");$("game").classList.remove("hidden");
+ $("score").textContent="⭐ 0 points";showQuestion();tone(520,.1);tone(780,.16,"sine",.05,.12);
+};
+function showQuestion(){
+ answered=false;let q=questions[index];
+ $("count").textContent=`Question ${index+1}/10`;$("bar").style.width=(index*10)+"%";
+ $("category").textContent=q[0];$("question").textContent=q[1];$("feedback").textContent="Choose the best answer!";
+ $("next").style.display="none";$("animal").style.left=(8+index*8)+"%";
+ $("answers").innerHTML="";
+ q.slice(2,6).forEach((answer,i)=>{
+  let b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+i)+". "+answer;
+  b.onclick=()=>choose(i,b);$("answers").appendChild(b);
+ });
+}
+function choose(choice,button){
+ if(answered)return;answered=true;let q=questions[index],correct=q[6];
+ [...$("answers").children].forEach((b,i)=>{b.disabled=true;if(i===correct)b.classList.add("correct")});
+ if(choice===correct){points+=10;$("feedback").textContent="Excellent! Correct answer! +10 points";correctSound()}
+ else{button.classList.add("wrong");$("feedback").textContent="Good try! The correct answer is "+String.fromCharCode(65+correct)+".";wrongSound()}
+ $("score").textContent="⭐ "+points+" points";$("bar").style.width=((index+1)*10)+"%";
+ $("animal").style.left=(15+index*8)+"%";$("next").style.display="block";
+}
+$("next").onclick=()=>{
+ index++;
+ if(index>=questions.length){finishGame();return}
+ showQuestion();tone(480,.07);
+};
+function finishGame(){
+ $("game").classList.add("hidden");$("finish").classList.remove("hidden");
+ const name=$("player").value.trim()||"Explorer";
+ $("finishTitle").textContent="Safari Complete, "+name+"!";
+ $("finishText").textContent="You explored the jungle and completed all 10 English challenges.";
+ $("finalScore").textContent="⭐ "+points+" / 100 points";
+ $("rank").textContent=points>=90?"Amazing! You are a Jungle English Champion!":points>=70?"Great work! You are a Brave Safari Explorer!":points>=50?"Well done! Keep practising and growing!":"Good effort! Every explorer gets stronger with practice!";
+ winSound();
+}
+$("again").onclick=()=>{$("finish").classList.add("hidden");$("welcome").classList.remove("hidden");};
+</script>
+</body>
+</html>
