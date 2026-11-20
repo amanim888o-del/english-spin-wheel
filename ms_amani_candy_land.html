@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ms. Amani's Candy Land</title>
+<style>
+:root{--pink:#ff5fa2;--purple:#7956d8;--mint:#65d8c3;--yellow:#ffd45c}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#51265f;background:linear-gradient(135deg,#ffe3f0,#e8e0ff 48%,#d9fff4);min-height:100vh}
+.wrap{max-width:900px;margin:auto;padding:18px}.brand{text-align:center;font-weight:900;letter-spacing:2px;color:#8c43b8;font-size:14px}
+h1{text-align:center;margin:4px 0;color:#e83d91;font-size:clamp(32px,7vw,54px);text-shadow:2px 3px white}
+.sub{text-align:center;margin:0 0 16px;color:#754b91}
+.panel{background:#ffffffdf;border:3px solid white;border-radius:24px;padding:18px;box-shadow:0 12px 30px #8e57a533;margin:14px 0}
+input{font:inherit;border:2px solid #e9c5ed;border-radius:14px;padding:12px;width:100%;margin:8px 0;color:#51265f}
+button{font:inherit;font-weight:800;border:0;border-radius:16px;padding:12px 18px;background:linear-gradient(135deg,#ff68a8,#a56be8);color:white;box-shadow:0 5px 0 #9c4e9c;cursor:pointer}
+button:active{transform:translateY(3px);box-shadow:0 2px 0 #9c4e9c}button:disabled{opacity:.55}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}.choice{background:#fff0f7;color:#783a85;border:2px solid #f6c4df;box-shadow:none;flex:1;min-width:110px}
+#game{display:none}.top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-weight:900}
+.track{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0}
+.tile{min-height:62px;border-radius:17px;display:grid;place-items:center;font-size:27px;background:#fce1ef;border:2px solid white;position:relative}
+.tile:nth-child(3n){background:#e6dcff}.tile:nth-child(3n+1){background:#d9f8ef}.tile.current{outline:4px solid #ffb52e;transform:scale(1.06);z-index:1}
+.tile.done{background:#ffe99b}.tile small{font-size:10px;display:block}
+.question{text-align:center}.qnum{color:#a15cb4;font-weight:900}.question h2{font-size:clamp(20px,4vw,28px);margin:8px 0 16px}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.answers button{background:#fff;color:#65317d;border:2px solid #e8c5f0;box-shadow:0 4px 0 #d6b2e2}
+.feedback{min-height:34px;text-align:center;font-weight:900;margin-top:12px;color:#7b3f9c}
+#finish{display:none;text-align:center}.big{font-size:52px}
+.sound{background:#6e57bd;box-shadow:0 5px 0 #4b378d}
+footer{text-align:center;color:#845a9b;font-weight:800;font-size:13px;padding:10px}
+@media(max-width:480px){.wrap{padding:12px}.panel{padding:14px}.tile{min-height:52px}.answers{grid-template-columns:1fr}}
+</style></head>
+<body><main class="wrap">
+<div class="brand">MS. AMANI PRESENTS</div><h1>🍭 CANDY LAND 🍬</h1><p class="sub">A sweet English adventure!</p>
+<section class="panel" id="start">
+  <h2 style="text-align:center;margin:0">Ready, candy explorer?</h2>
+  <p style="text-align:center">Enter your name and travel across the Candy Kingdom. Answer English questions to collect sweet treats!</p>
+  <label for="player">Your name</label><input id="player" maxlength="22" placeholder="Type your name">
+  <div class="row"><button class="choice" onclick="setLevel('easy',this)">Easy</button><button class="choice" onclick="setLevel('mixed',this)">Mixed</button><button class="choice" onclick="setLevel('challenge',this)">Challenge</button></div>
+  <div class="row" style="margin-top:15px"><button onclick="startGame()">START ADVENTURE</button><button class="sound" id="soundBtn" onclick="toggleSound()">Sound: ON</button></div>
+</section>
+<section class="panel" id="game">
+ <div class="top"><span id="welcome"></span><span>⭐ Score: <b id="score">0</b></span><span>🍬 Treats: <b id="treats">0</b>/10</span></div>
+ <div class="track" id="track"></div>
+ <div class="question"><div class="qnum" id="qnum"></div><h2 id="qtext"></h2><div class="answers" id="answers"></div><div class="feedback" id="feedback"></div></div>
+ <div class="row"><button class="sound" onclick="toggleSound()" id="gameSound">Sound: ON</button></div>
+</section>
+<section class="panel" id="finish"><div class="big">🏰🍭🍬🏆</div><h2 id="finishTitle">YOU DID IT!</h2><p>You made it through Candy Land!</p><h2>Final score: <span id="finalScore">0</span></h2><p id="finalName"></p><div class="big">🎉✨🍫✨🎉</div><button onclick="location.reload()">PLAY AGAIN</button></section>
+<footer>Sweet learning with Ms. Amani</footer></main>
+<script>
+const sets={
+easy:[
+['What color is a banana?','Yellow','Blue','Purple','Black',0],['Choose the plural of "cat".','Cates','Cats','Caties','Cat',1],['I ___ happy.','am','is','are','be',0],['Which one is a fruit?','Carrot','Apple','Bread','Milk',1],['What is the opposite of "hot"?','Warm','Cold','Big','Fast',1],['She ___ a student.','am','are','is','be',2],['Which word is an animal?','Table','Tiger','Pencil','Window',1],['Choose the correct article: ___ orange.','A','An','Thee','Am',1],['What is the plural of "box"?','Boxs','Boxies','Boxes','Box',2],['The sun is ___.','Green','Cold','Bright','Tiny',2]],
+mixed:[
+['Choose the correct sentence.','He go to school.','He goes to school.','He going school.','He gone school.',1],['What is the past of "eat"?','Eated','Ate','Eats','Eating',1],['Choose a synonym for "quick".','Slow','Fast','Quiet','Weak',1],['There ___ three books.','is','am','are','be',2],['Which is a preposition?','Under','Beautiful','Run','Happily',0],['What is the comparative of "small"?','Smallest','More small','Smaller','Smalling',2],['Choose the correct spelling.','Becaus','Because','Becose','Beacause',1],['I have lived here ___ 2020.','for','since','at','on',1],['Which word is an adverb?','Careful','Carefully','Care','Caring',1],['What does "generous" mean?','Kind and giving','Very angry','Always late','Very noisy',0]],
+challenge:[
+['If I ___ more time, I would travel.','have','had','will have','has',1],['Choose the passive sentence.','The chef cooked dinner.','Dinner was cooked by the chef.','The chef is cooking.','The chef cooks dinner.',1],['What is the meaning of "reluctant"?','Excited','Unwilling','Careless','Certain',1],['Neither of the answers ___ correct.','are','were','is','be',2],['Choose the correct reported speech: She said, "I am tired."','She said she is tired.','She said she was tired.','She says I was tired.','She said I am tired.',1],['What is the noun form of "decide"?','Decisive','Decision','Deciding','Decided',1],['Despite ___ late, he finished the work.','be','being','was','been',1],['Choose the correct phrase.','Fewer water','Less water','Few water','Many water',1],['The word "ancient" is closest to:','Modern','Very old','Expensive','Unusual',1],['By next June, I ___ my course.','finish','finished','will have finished','am finish',2]]
+};
+let level='mixed',idx=0,score=0,treats=0,soundOn=true,audioCtx=null,locked=false;
+function setLevel(v,b){level=v;document.querySelectorAll('.choice').forEach(x=>x.style.outline='none');b.style.outline='3px solid #ffb52e'}
+function audio(){if(!soundOn)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx}catch(e){}}
+function tone(freq,dur,type='sine',vol=.07,delay=0){const c=audio();if(!c)return;let o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(freq,c.currentTime+delay);g.gain.setValueAtTime(.001,c.currentTime+delay);g.gain.exponentialRampToValueAtTime(vol,c.currentTime+delay+.02);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+delay+dur);o.connect(g);g.connect(c.destination);o.start(c.currentTime+delay);o.stop(c.currentTime+delay+dur+.03)}
+function sfx(kind){if(kind==='start'){[523,659,784].forEach((f,i)=>tone(f,.18,'triangle',.07,i*.12))}if(kind==='correct'){[660,880,1100].forEach((f,i)=>tone(f,.16,'sine',.07,i*.09))}if(kind==='wrong'){tone(220,.22,'triangle',.06);tone(180,.24,'triangle',.05,.18)}if(kind==='finish'){[523,659,784,1047,1318].forEach((f,i)=>tone(f,.28,'triangle',.08,i*.13))}}
+function toggleSound(){soundOn=!soundOn;document.querySelectorAll('#soundBtn,#gameSound').forEach(b=>b.textContent='Sound: '+(soundOn?'ON':'OFF'));if(soundOn)sfx('correct')}
+function startGame(){let n=document.getElementById('player').value.trim();if(!n){document.getElementById('player').focus();return}audio();sfx('start');document.getElementById('start').style.display='none';document.getElementById('game').style.display='block';document.getElementById('welcome').textContent='Hi, '+n+'!';buildTrack();showQ()}
+function buildTrack(){let t=document.getElementById('track');t.innerHTML='';for(let i=0;i<10;i++){let d=document.createElement('div');d.className='tile';d.id='tile'+i;d.innerHTML=['🍭','🍬','🧁','🍩','🍫','🍓','🍦','🍪','🍡','🏰'][i]+'<small>'+(i+1)+'</small>';t.appendChild(d)}}
+function showQ(){locked=false;let q=sets[level][idx];document.getElementById('qnum').textContent='QUESTION '+(idx+1)+' OF 10';document.getElementById('qtext').textContent=q[0];document.getElementById('feedback').textContent='';let a=document.getElementById('answers');a.innerHTML='';for(let i=1;i<=4;i++){let b=document.createElement('button');b.textContent=q[i];b.onclick=()=>answer(i-1,b);a.appendChild(b)}document.querySelectorAll('.tile').forEach((t,i)=>t.classList.toggle('current',i===idx))}
+function answer(n,b){if(locked)return;locked=true;let q=sets[level][idx],buttons=[...document.querySelectorAll('.answers button')];buttons.forEach(x=>x.disabled=true);if(n===q[5]){score+=10;treats++;b.style.background='#d8fff0';document.getElementById('feedback').textContent='CORRECT! Sweet job! +10';document.getElementById('tile'+idx).classList.add('done');sfx('correct')}else{b.style.background='#ffe0e8';buttons[q[5]].style.background='#d8fff0';document.getElementById('feedback').textContent='Not quite! The correct answer is '+q[q[5]+1]+'.';sfx('wrong')}document.getElementById('score').textContent=score;document.getElementById('treats').textContent=treats;setTimeout(()=>{idx++;if(idx>=10)finish();else showQ()},1150)}
+function finish(){document.getElementById('game').style.display='none';document.getElementById('finish').style.display='block';document.getElementById('finalScore').textContent=score+'/100';document.getElementById('finalName').textContent=document.getElementById('player').value+' — Candy Land Champion!';document.getElementById('finishTitle').textContent=score>=80?'AMAZING! YOU ARE A CANDY STAR!':'YOU DID IT!';sfx('finish')}
+</script></body></html>
