@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ms. Amani's Mystery Doors</title>
+<style>
+:root{--gold:#ffdf91;--cream:#fff8e9;--ink:#211832;--violet:#392653}
+*{box-sizing:border-box}body{margin:0;background:#100c20;color:#fff;font-family:Georgia,serif}
+button,input{font:inherit}button{cursor:pointer}#app{min-height:100vh;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 0,#695084 0,#302044 43%,#100c20 100%)}
+.stars{position:fixed;inset:0;pointer-events:none;opacity:.8;background-image:radial-gradient(2px 2px at 12% 18%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 78% 13%,#ffe8a6 50%,transparent 60%),radial-gradient(2px 2px at 89% 52%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 27% 68%,#fff 50%,transparent 60%),radial-gradient(2px 2px at 58% 83%,#ffe8a6 50%,transparent 60%);background-size:360px 310px}
+.wrap{width:min(940px,94vw);margin:auto;padding:22px 0 42px;position:relative}.brand{text-align:center;color:var(--gold);letter-spacing:3px;text-transform:uppercase;font:700 12px Arial,sans-serif}
+h1{text-align:center;font-size:clamp(32px,6vw,56px);margin:10px 0;text-shadow:0 5px 25px #080510}.subtitle{text-align:center;color:#e3d8f0;font:15px/1.6 Arial,sans-serif;max-width:640px;margin:0 auto 22px}
+.panel{background:linear-gradient(145deg,#ffffff20,#ffffff09);border:1px solid #ffe2a055;box-shadow:0 22px 70px #08061588,inset 0 1px #ffffff30;border-radius:24px;padding:clamp(18px,4vw,34px);backdrop-filter:blur(9px)}
+label{display:block;font:700 13px Arial,sans-serif;color:var(--gold);margin:15px 0 7px}input{width:100%;padding:14px;border-radius:12px;border:1px solid #b7a5d2;background:#fffaf0;color:#29213d}
+.gender{display:grid;grid-template-columns:1fr 1fr;gap:12px}.gender button{border:1px solid #c7b4df;background:#ffffff12;color:white;border-radius:15px;padding:15px;font-weight:bold}.gender button.selected{background:var(--gold);color:#34234d}
+.primary{border:0;border-radius:999px;padding:14px 24px;background:linear-gradient(135deg,#ffedb6,#e7ae4d);color:#38254b;font-weight:900;box-shadow:0 6px 0 #98602c,0 12px 28px #08061566}.center{text-align:center;margin-top:20px}.small{font:13px/1.5 Arial,sans-serif;color:#d8cde8}.feedback{text-align:center;min-height:26px;margin:14px 0;color:var(--gold);font:700 14px Arial,sans-serif}
+.hidden{display:none!important}.topline{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;font:700 13px Arial,sans-serif;color:var(--gold)}
+.progress{height:9px;background:#ffffff20;border-radius:99px;overflow:hidden;margin:12px 0 22px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#f8d77e,#fff2c3);transition:width .35s}
+.door-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(8px,3vw,20px);margin:24px 0}.door-card{background:#17132d99;border:1px solid #ffffff25;border-radius:17px;padding:10px 6px;text-align:center}.door{height:clamp(145px,28vw,215px);max-width:170px;margin:auto;position:relative;border:5px solid #bd8749;border-bottom:0;border-radius:85px 85px 7px 7px;background:linear-gradient(90deg,#432c58,#81506f 48%,#382449);box-shadow:inset 8px 0 15px #ffffff18,inset -8px 0 18px #120c24,0 9px 20px #05040c;display:flex;align-items:center;justify-content:center}.door:before{content:"";position:absolute;inset:12px 12px 0;border:2px solid #d7a65f;border-radius:72px 72px 3px 3px}.door:after{content:"";position:absolute;left:calc(50% + 35px);top:56%;width:9px;height:9px;border-radius:50%;background:#ffdf83;box-shadow:0 0 12px #ffe49a}.door span{font-size:35px;z-index:1}.door-card button{background:none;border:0;color:var(--gold);font-weight:bold;padding:12px 2px 3px}.door-card button:disabled{opacity:.55}.door-card.chosen .door{box-shadow:0 0 0 3px var(--gold),0 0 35px #ffdc7b88;transform:scale(1.03)}.door-card.locked{opacity:.4}
+.room-banner{text-align:center;color:var(--gold);font:700 12px Arial,sans-serif;letter-spacing:2px}.question{font:700 clamp(19px,3vw,24px)/1.4 Arial,sans-serif;text-align:center;color:#fff7e5;margin:10px 0 18px}.qmeta{text-align:center;color:#d9cce9;font:12px Arial,sans-serif;margin:5px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px}.answer{border:1px solid #cbb6e5;background:#ffffff12;color:#fff;border-radius:13px;padding:14px;text-align:left;min-height:54px}.answer:disabled{cursor:default}.answer.correct{background:#28664e;border-color:#8ce1ae}.answer.wrong{background:#7a3548;border-color:#ff9dad}
+.character{display:flex;align-items:center;justify-content:center;gap:12px;margin:12px auto;color:#e8def5;font:13px Arial,sans-serif}.avatar{width:58px;height:70px;position:relative}.head{position:absolute;top:2px;left:15px;width:29px;height:31px;border-radius:48%;background:#d99b72;border:2px solid #6a3c42}.hair{position:absolute;top:-3px;left:11px;width:37px;height:24px;background:#3b2131;border-radius:50% 50% 35% 35%;z-index:2}.girl .hair{height:48px;width:43px;left:8px;border-radius:48% 48% 35% 35%;box-shadow:0 15px 0 -2px #3b2131}.boy .hair{height:17px;top:-5px;border-radius:60% 60% 20% 20%}.body{position:absolute;top:32px;left:9px;width:42px;height:36px;background:#8a72d6;border:2px solid #d8c5ff;border-radius:13px 13px 5px 5px}.girl .body{background:#df78a7;border-radius:14px 14px 8px 8px}.face{position:absolute;z-index:3;top:15px;left:21px;color:#3a2030;font-size:12px}
+.prize{display:flex;justify-content:center;gap:12px;font-size:42px;margin:16px}.door-symbol{font-size:50px;text-align:center;margin:6px}
+@media(max-width:560px){.answers{grid-template-columns:1fr}.door-grid{gap:6px}.door-card{padding:7px 3px}.door{border-width:4px}.door-card button{font-size:11px}}
+</style></head>
+<body><div id="app"><div class="stars"></div><main class="wrap">
+<div class="brand">Ms. Amani's English Adventures</div><h1>THE MYSTERY DOORS</h1>
+<p class="subtitle">Three ancient doors. Fifteen English challenges. One incredible treasure!</p>
+<section id="welcome" class="panel">
+<div class="door-symbol">🗝️ ✨ 🏰</div><h2 style="text-align:center;color:var(--gold);margin:0 0 8px">Welcome, brave explorer!</h2>
+<p class="subtitle">Enter your name and choose your character before entering the castle.</p>
+<label for="playerName">YOUR NAME</label><input id="playerName" maxlength="22" placeholder="Type your name here..." autocomplete="off">
+<label>CHOOSE YOUR CHARACTER</label><div class="gender"><button id="girlBtn" onclick="setGender('girl')">👧 Girl</button><button id="boyBtn" onclick="setGender('boy')">👦 Boy</button></div>
+<div class="center"><button class="primary" onclick="begin()">ENTER THE CASTLE</button></div><p id="startError" class="feedback"></p>
+<p class="small" style="text-align:center">Answer five questions in each room to unlock the next door. Earn 10 points for every correct answer!</p></section>
+<section id="game" class="hidden"><div class="topline"><span id="welcomeName"></span><span id="roomCount">ROOM 1 OF 3</span><span id="score">⭐ 0 POINTS</span></div><div class="progress"><span id="progressBar"></span></div>
+<div class="panel"><div id="avatarSpot" class="character"></div><div id="doorArea"><h2 style="text-align:center;color:var(--gold)">Choose a mysterious door</h2><p class="subtitle">One door hides the next challenge. Choose carefully!</p><div class="door-grid">
+<div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(0)">DOOR ONE</button></div><div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(1)">DOOR TWO</button></div><div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(2)">DOOR THREE</button></div></div></div>
+<div id="quiz" class="hidden"><div class="room-banner" id="roomTitle"></div><div class="qmeta" id="qmeta"></div><div class="question" id="question"></div><div class="answers" id="answers"></div><div class="feedback" id="feedback"></div><div class="center"><button id="nextBtn" class="primary hidden" onclick="advance()">NEXT QUESTION</button></div></div>
+<div id="roomComplete" class="hidden" style="text-align:center"><div class="door-symbol">🔓 ✨</div><h2 style="color:var(--gold)">DOOR UNLOCKED!</h2><p class="subtitle" id="roomCompleteText"></p><button class="primary" onclick="continueRoom()">ENTER THE NEXT ROOM</button></div>
+</div></section>
+<section id="finish" class="panel hidden" style="text-align:center"><div style="font-size:68px;filter:drop-shadow(0 0 20px #ffd65e)">🏆</div><h2 style="font-size:clamp(27px,5vw,42px);color:var(--gold)">YOU DID IT, <span id="finalName"></span>!</h2><p class="subtitle">You unlocked all three mystery doors and proved that you are an English champion!</p><div id="finalAvatar" class="character"></div><div class="prize">💎 💰 👑 ✨</div><h2 style="color:var(--gold)">YOUR TREASURE PRIZE</h2><p style="font:700 19px Arial">The Golden English Explorer Award!</p><p id="finalScore" class="small"></p><p style="font-weight:bold;color:var(--gold)">Ms. Amani is proud of you!</p><button class="primary" onclick="location.reload()">PLAY AGAIN</button></section>
+</main></div>
+<script>
+const rooms=[
+{title:"ROOM ONE · THE ENCHANTED LIBRARY",questions:[
+["Choose the correct sentence:",["She are reading a book.","She is reading a book.","She am reading a book."],1,"We say: She is reading a book."],
+["What is the plural of “child”?",["Childs","Childes","Children"],2,"The plural of child is children."],
+["Choose the opposite of “ancient”.",["Modern","Old","Quiet"],0,"Ancient means very old. Its opposite is modern."],
+["Complete: I ___ a new student.",["is","am","are"],1,"With I, we use am."],
+["Which word is a noun?",["Quickly","Beautiful","Teacher"],2,"Teacher is a person, so it is a noun."]]},
+{title:"ROOM TWO · THE DRAGON'S HALL",questions:[
+["Choose the correct preposition: The book is ___ the table.",["underly","on","between"],1,"We say: The book is on the table."],
+["Which word is spelled correctly?",["Becaus","Because","Beacause"],1,"Because is the correct spelling."],
+["Complete: Yesterday, we ___ football.",["played","play","playing"],0,"Yesterday tells us to use the past: played."],
+["Which one is an adjective?",["Happiness","Run","Beautiful"],2,"Beautiful describes a person or thing."],
+["Choose the correct question:",["Where you live?","Where do you live?","Where does you live?"],1,"We ask: Where do you live?"]]},
+{title:"ROOM THREE · THE ROYAL TREASURE ROOM",questions:[
+["Complete: They ___ happy.",["is","am","are"],2,"With they, we use are."],
+["What is the opposite of “expensive”?",["Cheap","Huge","Noisy"],0,"The opposite of expensive is cheap."],
+["Choose the correct article: She has ___ umbrella.",["a","an","the a"],1,"Umbrella begins with a vowel sound, so we use an."],
+["Which sentence is in the future?",["I visited my aunt.","I visit my aunt.","I will visit my aunt."],2,"Will visit tells us about the future."],
+["Choose the correct spelling:",["Elefant","Elephant","Eliphant"],1,"Elephant is the correct spelling."]]}
+];
+let gender="",name="",room=0,q=0,score=0,answered=false;
+function setGender(g){gender=g;girlBtn.classList.toggle('selected',g==='girl');boyBtn.classList.toggle('selected',g==='boy')}
+function avatarHTML(){return `<div class="avatar ${gender}"><div class="hair"></div><div class="head"></div><div class="face">•‿•</div><div class="body"></div></div><span>${name}</span>`}
+function begin(){name=playerName.value.trim();if(!name||!gender){startError.textContent="Please enter your name and choose Girl or Boy.";return}welcome.classList.add('hidden');game.classList.remove('hidden');welcomeName.textContent="EXPLORER: "+name.toUpperCase();avatarSpot.innerHTML=avatarHTML();updateTop()}
+function updateTop(){roomCount.textContent=`ROOM ${room+1} OF 3`;scoreEl=document.getElementById('score');scoreEl.textContent=`⭐ ${score} POINTS`;progressBar.style.width=((room*5+q)/15*100)+'%'}
+function openDoor(i){document.querySelectorAll('.door-card').forEach((c,j)=>{c.classList.toggle('chosen',j===i);c.classList.toggle('locked',j!==i);c.querySelector('button').disabled=true});doorArea.classList.add('hidden');quiz.classList.remove('hidden');q=0;showQuestion()}
+function showQuestion(){answered=false;const r=rooms[room],item=r.questions[q];roomTitle.textContent=r.title;qmeta.textContent=`CHALLENGE ${q+1} OF 5`;question.textContent=item[0];answers.innerHTML=item[1].map((a,i)=>`<button class="answer" onclick="chooseAnswer(${i},this)">${String.fromCharCode(65+i)}. ${a}</button>`).join('');feedback.textContent="";nextBtn.classList.add('hidden');nextBtn.textContent=q===4?"UNLOCK THE DOOR":"NEXT QUESTION";updateTop()}
+function chooseAnswer(i,el){if(answered)return;const item=rooms[room].questions[q];if(i===item[2]){answered=true;score+=10;document.querySelectorAll('.answer').forEach(b=>b.disabled=true);el.classList.add('correct');feedback.textContent="✨ "+item[3]+" +10 points!";nextBtn.classList.remove('hidden');updateTop()}else{el.classList.add('wrong');el.disabled=true;feedback.textContent="Not quite! Try another answer. You can do it!"}}
+function advance(){if(!answered)return;if(q<4){q++;showQuestion()}else{quiz.classList.add('hidden');roomComplete.classList.remove('hidden');roomCompleteText.textContent=`Amazing, ${name}! You answered all five questions in this room correctly. You earned 50 points!`;}}
+function continueRoom(){roomComplete.classList.add('hidden');room++;if(room===3){finish();return}doorArea.classList.remove('hidden');doorArea.innerHTML=`<h2 style="text-align:center;color:var(--gold)">A new mystery awaits!</h2><p class="subtitle">Choose a door to enter your next challenge.</p><div class="door-grid"><div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(0)">DOOR ONE</button></div><div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(1)">DOOR TWO</button></div><div class="door-card"><div class="door"><span>?</span></div><button onclick="openDoor(2)">DOOR THREE</button></div></div>`;updateTop()}
+function finish(){game.classList.add('hidden');finishPanel=document.getElementById('finish');finishPanel.classList.remove('hidden');finalName.textContent=name.toUpperCase();finalAvatar.innerHTML=avatarHTML();finalScore.textContent=`Final score: ${score} / 150 points · 15 challenges completed!`;progressBar.style.width='100%';try{const C=window.AudioContext||window.webkitAudioContext;if(C){const c=new C();[523,659,784,1046].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.001,c.currentTime+i*.16);g.gain.exponentialRampToValueAtTime(.1,c.currentTime+i*.16+.03);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+i*.16+.22);o.start(c.currentTime+i*.16);o.stop(c.currentTime+i*.16+.23)})}}catch(e){}}
+</script></body></html>
