@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ms. Amani's Great Escape</title>
+<style>
+:root{--purple:#8052ad;--pink:#f2a8c7;--ink:#342847;--cream:#fff8f2;--green:#70b99b}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#fff7fb,#f1edff);color:var(--ink);min-height:100vh}
+.wrap{max-width:900px;margin:auto;padding:22px 16px 40px}
+header{text-align:center;margin-bottom:18px}
+h1{color:var(--purple);font-size:clamp(28px,5vw,44px);margin:8px 0}
+.sub{font-size:17px;color:#735c85}
+.panel{background:#fff;border:3px solid #eadcf5;border-radius:24px;padding:22px;box-shadow:0 10px 25px #4b2d6814}
+.hidden{display:none!important}
+label{font-weight:bold;display:block;margin:12px 0 7px}
+input{width:100%;padding:14px;border:2px solid #dfd1eb;border-radius:13px;font-size:18px}
+.choices{display:flex;gap:12px}
+.choice{flex:1;border:2px solid #dfd1eb;background:#fff8fc;border-radius:16px;padding:15px;font-size:18px;cursor:pointer}
+.choice.selected{border-color:var(--purple);background:#f2e9ff;box-shadow:inset 0 0 0 2px var(--purple)}
+button{border:0;border-radius:14px;background:var(--purple);color:white;font-weight:bold;font-size:18px;padding:14px 22px;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+.start{width:100%;margin-top:18px}
+.game-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:bold;color:#6d5383;margin-bottom:12px}
+.scene{position:relative;overflow:hidden;border-radius:22px;background:linear-gradient(#dff3ff 0 63%,#b9e3bb 63%);min-height:330px;padding:18px 12px 0}
+.sun{position:absolute;right:8%;top:20px;width:55px;height:55px;border-radius:50%;background:#ffdc83;box-shadow:0 0 0 12px #ffdc8333}
+.cloud{position:absolute;top:48px;left:12%;font-size:42px}
+.house{position:absolute;right:8%;bottom:0;width:58%;height:230px;background:#f5cda7;border:5px solid #a66e61;border-bottom:0;border-radius:8px 8px 0 0}
+.roof{position:absolute;top:-72px;left:-7%;width:114%;height:100px;background:#b96e83;clip-path:polygon(50% 0,100% 100%,0 100%);border-bottom:5px solid #8d526b}
+.house-label{position:absolute;top:10px;left:0;right:0;text-align:center;font-weight:bold;color:#704a56;font-size:16px}
+.doors{position:absolute;left:8%;right:8%;bottom:0;height:150px;display:grid;grid-template-columns:repeat(5,1fr);gap:7px;align-items:end}
+.door{height:125px;background:#8b5b9e;border:4px solid #573c70;border-radius:10px 10px 0 0;position:relative;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:14px;transition:.35s}
+.door:after{content:"";position:absolute;right:8px;top:55%;width:8px;height:8px;border-radius:50%;background:#ffd76e}
+.door.open{height:115px;transform:perspective(100px) rotateY(-35deg);transform-origin:left;background:#b9a0ca;opacity:.7}
+.door.current{outline:5px solid #ffe36e;outline-offset:2px}
+.door .tick{font-size:25px}
+.person{position:absolute;left:8%;bottom:0;width:110px;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;z-index:2;transition:left 1s ease}
+.head{width:55px;height:58px;border-radius:48% 48% 45% 45%;background:#c98762;border:3px solid #704b42;position:relative}
+.hair{position:absolute;top:-8px;left:0;width:55px;height:25px;background:#49352e;border-radius:50% 50% 20% 20%}
+.bodychar{width:70px;height:82px;border-radius:22px 22px 8px 8px;background:#6c9ed5;border:3px solid #4a6592;margin-top:-2px}
+.legs{display:flex;gap:14px}.legs i{display:block;width:15px;height:42px;background:#4c4566;border-radius:8px}
+.person.girl .bodychar{background:#e78eb6}.person.boy .bodychar{background:#6c9ed5}
+.person.walk{animation:bob .45s infinite alternate}
+@keyframes bob{to{transform:translateY(-7px)}}
+.question{margin-top:18px}
+.qmeta{font-weight:bold;color:#8b6aa3;margin-bottom:7px}
+.qtext{font-size:23px;font-weight:bold;margin:8px 0 14px}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.answer{background:#f4edfb;color:#49345f;border:2px solid #e1d2ef}
+.answer.correct{background:#dff5e9;border-color:#70b99b;color:#225b43}
+.answer.wrong{background:#ffe7e7;border-color:#e99b9b;color:#8b3333}
+.feedback{min-height:30px;margin-top:12px;font-weight:bold;font-size:17px}
+.next{width:100%;margin-top:8px;background:#64a987}
+.progress{height:12px;border-radius:20px;background:#eadff2;overflow:hidden;margin:10px 0 0}
+.progress span{display:block;height:100%;width:0;background:#8bc8a8;transition:width .4s}
+.finish{text-align:center;padding:30px 15px}
+.finish h2{font-size:34px;color:var(--purple)}
+.bigclap{font-size:58px;letter-spacing:5px;animation:clap .35s infinite alternate}
+@keyframes clap{to{transform:scale(1.12) rotate(2deg)}}
+.confetti{font-size:30px;line-height:1.8}
+.small{font-size:14px;color:#806b91}
+@media(max-width:560px){.scene{min-height:285px}.house{width:64%;height:195px;right:3%}.roof{top:-60px;height:85px}.doors{height:128px;gap:3px}.door{height:105px;font-size:11px}.door.open{height:98px}.person{left:1%;transform:scale(.82);transform-origin:bottom left}.qtext{font-size:20px}.answers{grid-template-columns:1fr}.panel{padding:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Ms. Amani's Great Escape!</h1><div class="sub">Answer the questions, open every door, and escape the house!</div></header>
+<section class="panel" id="welcome">
+  <h2>Who's going on an adventure?</h2>
+  <label for="playerName">Write your name:</label>
+  <input id="playerName" maxlength="22" placeholder="Your name">
+  <label>Choose your character:</label>
+  <div class="choices">
+    <button type="button" class="choice selected" data-gender="boy">Boy</button>
+    <button type="button" class="choice" data-gender="girl">Girl</button>
+  </div>
+  <p class="small">There are 5 locked doors. Get the answer right to open each door!</p>
+  <button class="start" id="start">START THE ADVENTURE</button>
+</section>
+<section class="panel hidden" id="game">
+  <div class="game-top"><span id="hello">Let's go!</span><span id="score">Score: 0</span></div>
+  <div class="scene">
+    <div class="sun"></div><div class="cloud">☁</div>
+    <div class="person boy" id="person"><div class="head"><div class="hair"></div></div><div class="bodychar"></div><div class="legs"><i></i><i></i></div></div>
+    <div class="house"><div class="roof"></div><div class="house-label">THE MYSTERY HOUSE</div><div class="doors" id="doors"></div></div>
+  </div>
+  <div class="progress"><span id="bar"></span></div>
+  <div class="question">
+    <div class="qmeta" id="qmeta">DOOR 1 OF 5</div>
+    <div class="qtext" id="qtext">Loading question...</div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+    <button class="next hidden" id="next">Continue to the next door</button>
+  </div>
+</section>
+<section class="panel finish hidden" id="finish">
+  <div class="confetti">🎉 ✨ 🎊 ✨ 🎉</div>
+  <h2>You escaped, <span id="winner"></span>!</h2>
+  <div class="bigclap">👏 👏 👏</div>
+  <h2>AMAZING JOB!</h2>
+  <p id="finalscore"></p>
+  <p>Everyone give a big round of applause!</p>
+  <button id="again">PLAY AGAIN</button>
+</section>
+</div>
+<script>
+const questions=[
+ {q:"Which word is a color?",a:["Apple","Blue","Run","Cat"],c:1},
+ {q:"What is the plural of 'book'?",a:["Bookes","Books","Bookies","Book"],c:1},
+ {q:"Choose the correct sentence.",a:["She are happy.","She am happy.","She is happy.","She be happy."],c:2},
+ {q:"Which animal can fly?",a:["Fish","Bird","Dog","Horse"],c:1},
+ {q:"What is the opposite of 'big'?",a:["Tall","Long","Small","Fast"],c:2},
+ {q:"Complete: I ___ a student.",a:["am","is","are","be"],c:0},
+ {q:"Which one is a fruit?",a:["Carrot","Potato","Banana","Onion"],c:2},
+ {q:"What is the past of 'go'?",a:["Goed","Went","Going","Goes"],c:1},
+ {q:"Choose the correct question.",a:["Where you are?","Where are you?","Where is you?","Where am you?"],c:1},
+ {q:"How many days are in a week?",a:["Five","Six","Seven","Eight"],c:2},
+ {q:"Which word is a feeling?",a:["Happy","Table","Green","Pencil"],c:0},
+ {q:"Complete: They ___ playing.",a:["is","am","are","be"],c:2},
+ {q:"Which one is a classroom object?",a:["Cloud","Eraser","Tiger","Orange"],c:1},
+ {q:"What is the opposite of 'hot'?",a:["Warm","Cold","Sunny","Dry"],c:1},
+ {q:"Choose the correct article: ___ apple.",a:["A","An","Thee","No"],c:1}
+];
+let gender="boy",door=0,score=0,current=null,locked=false,used=[];
+const $=id=>document.getElementById(id);
+document.querySelectorAll(".choice").forEach(b=>b.addEventListener("click",()=>{gender=b.dataset.gender;document.querySelectorAll(".choice").forEach(x=>x.classList.toggle("selected",x===b));}));
+function makeDoors(){ $("doors").innerHTML="";for(let i=0;i<5;i++){let d=document.createElement("div");d.className="door"+(i<door?" open":"")+(i===door?" current":"");d.innerHTML=i<door?'<span class="tick">✓</span>':`<span>${i+1}</span>`; $("doors").appendChild(d);}}
+function newQuestion(){let available=questions.map((_,i)=>i).filter(i=>!used.includes(i));if(!available.length)used=[];let idx=(available.length?available:questions.map((_,i)=>i))[Math.floor(Math.random()*(available.length||questions.length))];used.push(idx);current=questions[idx];locked=false;$("qmeta").textContent=`DOOR ${door+1} OF 5`; $("qtext").textContent=current.q;$("feedback").textContent="";$("next").classList.add("hidden");$("answers").innerHTML="";current.a.forEach((a,i)=>{let b=document.createElement("button");b.className="answer";b.textContent=a;b.onclick=()=>check(i,b);$("answers").appendChild(b);});}
+function check(i,btn){if(locked)return;if(i===current.c){locked=true;score+=10;$("score").textContent="Score: "+score;btn.classList.add("correct");$("feedback").textContent="Correct! The door is opening!";$("feedback").style.color="#27734e";let doors=[...document.querySelectorAll(".door")];doors[door].classList.remove("current");doors[door].classList.add("open");doors[door].innerHTML='<span class="tick">✓</span>';$("bar").style.width=((door+1)/5*100)+"%";$("person").classList.add("walk");$("person").style.left=(10+door*10)+"%";setTimeout(()=>$("person").classList.remove("walk"),950);$("answers").querySelectorAll("button").forEach(b=>b.disabled=true);$("next").classList.remove("hidden");$("next").textContent=door===4?"Escape the house!":"Continue to the next door";}else{btn.classList.add("wrong");$("feedback").textContent="Not quite! Try another answer. The door is still locked."; $("feedback").style.color="#a43d3d";setTimeout(()=>btn.classList.remove("wrong"),650);}}
+$("next").onclick=()=>{door++;if(door===5){$("game").classList.add("hidden");$("finish").classList.remove("hidden");$("winner").textContent=$("playerName").value.trim()||"Champion";$("finalscore").textContent=`Your score: ${score} out of 50`;celebrate();}else{makeDoors();newQuestion();}};
+function celebrate(){try{let C=window.AudioContext||window.webkitAudioContext;if(!C)return;let ctx=new C();let duration=2.2;for(let j=0;j<30;j++){let start=ctx.currentTime+j*.07;let n=ctx.createBuffer(1,ctx.sampleRate*.045,ctx.sampleRate),d=n.getChannelData(0);for(let k=0;k<d.length;k++)d[k]=(Math.random()*2-1)*Math.pow(1-k/d.length,2);let s=ctx.createBufferSource();s.buffer=n;let f=ctx.createBiquadFilter();f.type="highpass";f.frequency.value=900;let g=ctx.createGain();g.gain.setValueAtTime(.12,start);g.gain.exponentialRampToValueAtTime(.001,start+.045);s.connect(f);f.connect(g);g.connect(ctx.destination);s.start(start);}}catch(e){}}
+$("start").onclick=()=>{let name=$("playerName").value.trim();if(!name){$("playerName").focus();$("playerName").placeholder="Please write your name first!";return;}door=0;score=0;used=[];$("score").textContent="Score: 0";$("hello").textContent=`Good luck, ${name}!`; $("welcome").classList.add("hidden");$("finish").classList.add("hidden");$("game").classList.remove("hidden");$("person").className="person "+gender;$("person").style.left="1%";$("bar").style.width="0%";makeDoors();newQuestion();};
+$("again").onclick=()=>{$("finish").classList.add("hidden");$("welcome").classList.remove("hidden");};
+</script>
+</body>
+</html>
