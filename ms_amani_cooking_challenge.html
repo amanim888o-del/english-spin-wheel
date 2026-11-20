@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ms. Amani's Cooking Challenge</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:16px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#45334c;background:linear-gradient(135deg,#fff0d8,#ffe1eb 48%,#e4f7e8);min-height:100vh}.wrap{max-width:850px;margin:auto}header{text-align:center;padding:12px 6px 20px}.brand{display:inline-block;background:white;border:3px solid #fff;border-radius:20px;padding:8px 17px;color:#b34d79;font-weight:950;box-shadow:0 5px 0 #f3c5d5}h1{font-size:clamp(2rem,6vw,3.1rem);margin:14px 0 4px}.sub{font-weight:700;color:#84677d}.panel{background:#fffefa;border:3px solid white;border-radius:28px;padding:clamp(18px,4vw,30px);box-shadow:0 14px 32px #875b6b20;margin-bottom:20px}h2{margin:0 0 8px}.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.level{cursor:pointer;border:3px solid #f3cddd;background:#fff0f5;color:#984b70;border-radius:18px;padding:14px 8px;font-weight:900;font-size:1rem;box-shadow:0 5px 0 #edc3d5}.level small{display:block;color:#94798b;margin-top:4px}.level.selected{background:#e5f8e9;border-color:#9dd8ac;color:#397b50;transform:translateY(3px);box-shadow:0 2px 0 #9dd8ac}input{width:100%;padding:13px;border:2px solid #efcddd;border-radius:13px;font:inherit;margin:7px 0 12px}.primary,.sound,.answer,.next{font:inherit;font-weight:900;border:0;cursor:pointer;border-radius:16px}.primary{background:linear-gradient(100deg,#ff8aaa,#ffbd67);color:white;padding:14px 24px;box-shadow:0 5px 0 #e58b9c;font-size:1.05rem}.primary:active,.answer:active{transform:translateY(3px)}.center{text-align:center}.hidden{display:none!important}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.stats{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#fff0d8;color:#93603a;border-radius:13px;padding:8px 12px;font-weight:900}.sound{background:#f6eafa;color:#85508d;border:2px solid #e5cce9;padding:9px 13px}.progress{height:12px;background:#f5e6ed;border-radius:20px;overflow:hidden;margin:14px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,#ff8aaa,#ffc45d,#77c98e);transition:width .3s}.kitchen{height:175px;border-radius:22px;background:linear-gradient(#c7eff3 0 65%,#f8d7a9 65%);position:relative;overflow:hidden;border:3px solid white;margin:15px 0}.window{position:absolute;left:8%;top:17px;font-size:45px}.shelf{position:absolute;right:8%;top:22px;font-size:42px}.chef{position:absolute;left:42%;bottom:15px;font-size:62px}.counter{position:absolute;bottom:0;height:28px;background:#bd825d;width:100%;border-top:5px solid #f3c69e}.pot{position:absolute;left:48%;bottom:22px;font-size:55px}.steam{position:absolute;left:56%;bottom:85px;font-size:24px}.dish{position:absolute;right:10%;bottom:22px;font-size:48px}.tag{text-align:center;text-transform:uppercase;letter-spacing:2px;color:#bd6286;font-weight:950;margin:8px}.question{text-align:center;font-size:clamp(1.2rem,4vw,1.7rem);font-weight:950;margin:12px 0 18px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px}.answer{padding:15px 12px;text-align:left;background:#fff1f5;color:#78435f;border:3px solid #f4d2df;box-shadow:0 4px 0 #edc4d4;font-size:1rem}.answer.correct{background:#e4f8e8;border-color:#8bd09b;color:#317448}.answer.wrong{background:#ffe5e5;border-color:#f1a0a0;color:#9a3f3f}.answer:disabled{opacity:1}.feedback{text-align:center;min-height:32px;font-weight:900;margin:14px 0}.next{display:none;background:#65bd83;color:white;padding:13px 22px;box-shadow:0 5px 0 #439a61;margin:0 auto}.recipe{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:10px 0}.ingredient{background:#fff8df;border:2px solid #f2dfa6;border-radius:14px;padding:8px 11px;font-weight:850}.finalicon{font-size:68px}footer{text-align:center;color:#8a6a7b;font-weight:850;padding:10px}@media(max-width:560px){body{padding:10px}.levels{grid-template-columns:1fr}.level{padding:11px}.answers{grid-template-columns:1fr}.kitchen{height:150px}.panel{border-radius:23px}}
+</style></head>
+<body><div class="wrap">
+<header><div class="brand">MS. AMANI'S ENGLISH GAMES</div><h1>🍳 Cooking Challenge</h1><div class="sub">Mix English with cooking and create a delicious masterpiece!</div></header>
+<section class="panel" id="welcome">
+<h2>Welcome to the Cooking Challenge!</h2>
+<p>Answer English questions to collect ingredients and prepare your special dish. Every correct answer earns <b>10 points</b>!</p>
+<label for="player"><b>Chef's name</b></label><input id="player" maxlength="24" placeholder="Enter your name">
+<b>Choose your cooking level:</b>
+<div class="levels">
+<button class="level selected" data-level="easy">🥣 Easy<small>Little Chefs</small></button>
+<button class="level" data-level="medium">🍝 Medium<small>Junior Chefs</small></button>
+<button class="level" data-level="advanced">👩‍🍳 Advanced<small>Master Chefs</small></button>
+</div><div class="center"><button class="primary" id="start">START COOKING!</button></div>
+</section>
+<section class="panel hidden" id="game">
+<div class="top"><div class="stats"><span class="pill" id="count">Question 1/10</span><span class="pill" id="score">⭐ 0 points</span></div><button class="sound" id="sound">🔊 Sound ON</button></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="kitchen"><div class="window">☀️</div><div class="shelf">🧂🥫</div><div class="chef">👩‍🍳</div><div class="pot">🍲</div><div class="steam">♨️</div><div class="dish">🍽️</div><div class="counter"></div></div>
+<div class="recipe" id="recipe"><span class="ingredient">🥕 Carrot</span></div>
+<div class="tag" id="category">Vocabulary</div><div class="question" id="question"></div>
+<div class="answers" id="answers"></div><div class="feedback" id="feedback" aria-live="polite">Choose the best answer!</div>
+<button class="next" id="next">NEXT QUESTION →</button>
+</section>
+<section class="panel center hidden" id="finish"><div class="finalicon">🏆🍰</div><h2 id="finishTitle">Amazing cooking!</h2><p id="finishText"></p><div class="pill" id="finalScore" style="display:inline-block;font-size:1.2rem">⭐ 0 / 100</div><p id="rank"></p><button class="primary" id="again">COOK AGAIN</button></section>
+<footer>Made with care by Ms. Amani</footer></div>
+<script>
+const data={
+easy:[
+["Vocabulary","Which fruit is yellow and monkeys like to eat?","Banana","Grape","Cherry","Lemon",0],
+["Colors","What color do you get by mixing red and yellow?","Green","Orange","Purple","Blue",1],
+["Grammar","I ___ hungry.","is","are","am","be",2],
+["Food","Which one is a vegetable?","Carrot","Cake","Juice","Bread",0],
+["Plural nouns","What is the plural of “tomato”?","tomatos","tomatoes","tomatoies","tomato",1],
+["Opposites","The soup is hot. The ice cream is ___.","cold","sweet","salty","spicy",0],
+["Articles","She eats ___ apple.","a","an","are","some",1],
+["Verbs","Chefs ___ food.","cook","cooks","cooking","cooked",0],
+["Countable nouns","Which one can you count?","Milk","Rice","Eggs","Water",2],
+["Spelling","Choose the correct spelling.","Chiken","Chicken","Chickin","Chikcen",1]],
+medium:[
+["Present simple","My mother ___ dinner every evening.","cook","cooks","cooking","cooked",1],
+["Past simple","Yesterday, we ___ a chocolate cake.","make","makes","made","making",2],
+["Vocabulary","A person who prepares food in a restaurant is a ___.","chef","pilot","farmer","nurse",0],
+["Comparatives","A lemon is usually ___ than a strawberry.","sourer","sour","sourest","more sourer",0],
+["Quantifiers","There aren't ___ eggs in the fridge.","much","some","any","a little",2],
+["Prepositions","The milk is ___ the fridge.","in","at","between","from",0],
+["Question words","___ do you need to bake a cake? Flour and eggs.","Who","What","Where","When",1],
+["Modal verbs","You ___ wash your hands before cooking.","should","shouldn't","wouldn't","might not",0],
+["Vocabulary","“Delicious” means ___.","very tasty","very cold","very expensive","very small",0],
+["First conditional","If you heat ice, it ___.","melted","melts","will melting","melt",1]],
+advanced:[
+["Passive voice","The meal ___ by the chef every day.","prepares","is prepared","prepared","is preparing",1],
+["Conditionals","If I had more time, I ___ homemade pasta.","will make","would make","make","made",1],
+["Vocabulary","What does “ingredients” mean?","The tools used to eat","The foods used to make a dish","The people in a kitchen","The finished plates",1],
+["Subject–verb agreement","Neither the chef nor the assistants ___ late.","is","was","are","has",2],
+["Reported speech","“I have prepared dinner,” she said. She said she ___ dinner.","has prepared","had prepared","will prepare","prepares",1],
+["Word formation","The noun form of “choose” is ___.","choice","choosingly","choosy","chosen",0],
+["Grammar","Choose the correct sentence.","She suggested to add salt.","She suggested adding salt.","She suggested add salt.","She suggesting adding salt.",1],
+["Gerunds","He is interested in ___ new recipes.","try","to try","trying","tried",2],
+["Vocabulary","“Simmer” means to cook ___.","in very hot oil","gently just below boiling point","without any heat","in a freezer",1],
+["Future perfect","By 7 o'clock, we ___ preparing the meal.","will finish","will have finished","have finished","finished",1]]
+};
+let level="easy",qs=[],idx=0,score=0,enabled=true,locked=false,ctx;
+const el=id=>document.getElementById(id);
+document.querySelectorAll(".level").forEach(b=>b.onclick=()=>{document.querySelectorAll(".level").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");level=b.dataset.level;tone(500,.08)});
+function tone(f,d=.14,type="sine",delay=0){if(!enabled)return;try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();let o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.055,ctx.currentTime+delay);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+delay+d);o.connect(g);g.connect(ctx.destination);o.start(ctx.currentTime+delay);o.stop(ctx.currentTime+delay+d)}catch(e){}}
+function good(){tone(660);tone(880,.18,"sine",.14)}function bad(){tone(190,.22,"triangle")}function fanfare(){[523,659,784,1047].forEach((f,i)=>tone(f,.25,"sine",i*.15))}
+el("sound").onclick=()=>{enabled=!enabled;el("sound").textContent=enabled?"🔊 Sound ON":"🔇 Sound OFF";if(enabled)tone(600)};
+el("start").onclick=()=>{qs=data[level].map(x=>x.slice());idx=0;score=0;el("welcome").classList.add("hidden");el("finish").classList.add("hidden");el("game").classList.remove("hidden");el("score").textContent="⭐ 0 points";tone(520);tone(780,.2,"sine",.15);render()};
+function render(){locked=false;let q=qs[idx];el("count").textContent=`Question ${idx+1}/10`;el("bar").style.width=idx*10+"%";el("category").textContent=q[0];el("question").textContent=q[1];el("feedback").textContent="Choose the best answer!";el("next").style.display="none";el("recipe").innerHTML=["🥕 Carrot","🥚 Egg","🥛 Milk","🧀 Cheese","🍅 Tomato","🍞 Bread","🍓 Berry","🍯 Honey","🥦 Broccoli","🍋 Lemon"].slice(0,idx+1).map(x=>`<span class="ingredient">${x}</span>`).join("");el("answers").innerHTML="";q.slice(2,6).forEach((v,i)=>{let b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+i)+". "+v;b.onclick=()=>choose(i,b);el("answers").appendChild(b)})}
+function choose(n,btn){if(locked)return;locked=true;let q=qs[idx],right=q[6];[...el("answers").children].forEach((b,i)=>{b.disabled=true;if(i===right)b.classList.add("correct")});if(n===right){score+=10;el("feedback").textContent="Perfect! Delicious answer! +10 points";good()}else{btn.classList.add("wrong");el("feedback").textContent="Nice try! The correct answer is "+String.fromCharCode(65+right)+".";bad()}el("score").textContent="⭐ "+score+" points";el("bar").style.width=(idx+1)*10+"%";el("next").style.display="block"}
+el("next").onclick=()=>{idx++;if(idx===10){finish();return}render();tone(490,.07)};
+function finish(){el("game").classList.add("hidden");el("finish").classList.remove("hidden");let name=el("player").value.trim()||"Chef";el("finishTitle").textContent="Well done, Chef "+name+"!";el("finishText").textContent="You completed all 10 English questions and prepared your cooking masterpiece!";el("finalScore").textContent="⭐ "+score+" / 100 points";el("rank").textContent=score>=90?"Master Chef! Your English skills are fantastic!":score>=70?"Super Chef! Great work!":score>=50?"Junior Chef! Keep practising!":"Every great chef learns by practising. Try again!";fanfare()}
+el("again").onclick=()=>{el("finish").classList.add("hidden");el("welcome").classList.remove("hidden")};
+</script></body></html>
