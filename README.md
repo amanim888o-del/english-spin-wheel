@@ -20,3 +20,5 @@
 [Play Dinosaur Castle](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_dinosaur_castle.html)
 ### 9. Underwater Adventure
 [Play Underwater Adventure](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_underwater_adventure.html)
+### 10. Candy Land
+[Play Candy Land](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_candy_land.html)
