@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms. Amani's Underwater Adventure</title>
+<style>
+:root{--navy:#063b63;--blue:#08a8cf;--aqua:#7ee7df;--coral:#ff806e;--gold:#ffd166;--ink:#07324c}
+*{box-sizing:border-box}
+body{margin:0;font-family:Trebuchet MS,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#b8f5f0,#56c9df 55%,#087eae);min-height:100vh}
+.shell{max-width:900px;margin:auto;padding:16px}
+header{text-align:center;color:#fff;text-shadow:0 2px 4px #075579;padding:8px 0 14px}
+.brand{display:inline-block;background:#fff;color:#087da5;border-radius:999px;padding:7px 18px;font-weight:900;letter-spacing:1px;box-shadow:0 4px 0 #8be5dc}
+h1{font-size:clamp(28px,6vw,46px);margin:12px 0 4px}
+.subtitle{margin:0;font-weight:700}
+.panel{background:#ffffffed;border:3px solid #d8fffa;border-radius:24px;padding:18px;box-shadow:0 9px 0 #087da5,0 14px 24px #064f7044;margin:12px 0}
+h2{margin:4px 0 12px;color:#087da5}
+label{font-weight:800;display:block;margin:10px 0 6px}
+input{width:100%;padding:14px;border:2px solid #8adbdc;border-radius:14px;font-size:17px}
+button{border:0;border-radius:15px;padding:13px 18px;font-size:16px;font-weight:900;cursor:pointer;background:var(--coral);color:#fff;box-shadow:0 5px 0 #d45b55;transition:transform .12s}
+button:active{transform:translateY(3px);box-shadow:0 2px 0 #d45b55}
+button.secondary{background:#0a9fc2;box-shadow:0 5px 0 #087393}
+button:disabled{opacity:.55;cursor:not-allowed}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{background:#f1fbff;color:#075274;border:2px solid #8adbdc;box-shadow:0 4px 0 #7cc9d1}
+.choice.selected{background:#ffe9a9;border-color:#f3b942}
+.topline{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:900;color:#075274}
+.progress{height:13px;background:#d6f4ef;border-radius:99px;overflow:hidden;margin:10px 0}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#15b9b0,#ffd166);transition:width .35s}
+.ocean{position:relative;overflow:hidden;border-radius:20px;min-height:185px;background:linear-gradient(#39c5dc,#0879ad);border:3px solid #b9f9f0;margin:12px 0;padding:14px;color:#fff}
+.seabed{position:absolute;bottom:0;left:0;right:0;height:35px;background:#e9c77d;border-radius:50% 50% 0 0}
+.bubbles{position:absolute;inset:0;pointer-events:none;opacity:.55;background:radial-gradient(circle at 15% 30%,#fff 0 4px,transparent 5px),radial-gradient(circle at 80% 20%,#fff 0 3px,transparent 4px),radial-gradient(circle at 60% 65%,#fff 0 5px,transparent 6px)}
+.reef{position:absolute;bottom:20px;font-size:38px}
+.submarine{font-size:54px;position:relative;z-index:2;display:inline-block;transition:transform .4s}
+.pathline{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;margin:8px 0 0}
+.pathline span{font-size:25px;filter:drop-shadow(0 2px 1px #075579)}
+.question{font-size:clamp(20px,4vw,25px);font-weight:900;margin:10px 0 14px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.answer{background:#eafaff;color:#075274;border:2px solid #9cdee2;box-shadow:0 4px 0 #8bcbd1}
+.answer.correct{background:#d9ffe7;border-color:#42c77c;color:#12653a}
+.answer.wrong{background:#ffe1df;border-color:#ff8077;color:#9b302c}
+.feedback{font-weight:900;min-height:28px;margin:12px 0;color:#087da5}
+.hidden{display:none!important}
+.center{text-align:center}
+.big{font-size:64px}
+.small{font-size:13px;color:#38718a}
+.footer{text-align:center;color:#fff;font-weight:800;text-shadow:0 1px 3px #075579;margin:18px}
+#soundBtn{background:#fff;color:#087da5;box-shadow:0 4px 0 #8adbdc;padding:9px 13px}
+@media(max-width:520px){.shell{padding:10px}.panel{padding:14px}.answers{grid-template-columns:1fr}.choices{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+ <div class="brand">MS. AMANI'S ENGLISH GAMES</div>
+ <h1>UNDERWATER ADVENTURE</h1>
+ <p class="subtitle">Dive deep, answer smart, and discover the ocean treasure!</p>
+</header>
+
+<section class="panel" id="start">
+ <h2>Ready, Ocean Explorer?</h2>
+ <label for="student">Your name</label>
+ <input id="student" maxlength="22" placeholder="Type your name..." autocomplete="off">
+ <label>Choose your diver</label>
+ <div class="choices">
+  <button class="choice selected" data-avatar="🤿" onclick="pickAvatar(this)">🤿 Sea Explorer</button>
+  <button class="choice" data-avatar="🧜‍♀️" onclick="pickAvatar(this)">🧜‍♀️ Mermaid</button>
+ </div>
+ <p class="small">10 English challenges • 10 points for every correct answer • One player</p>
+ <button style="width:100%;margin-top:8px" onclick="startGame()">START DIVING!</button>
+</section>
+
+<section class="panel hidden" id="game">
+ <div class="topline"><span id="welcome">Explorer</span><span>⭐ Score: <b id="score">0</b></span><span>🌊 <b id="count">1</b>/10</span></div>
+ <div class="progress"><div class="bar" id="bar"></div></div>
+ <div class="ocean">
+  <div class="bubbles"></div><div class="reef" style="left:8px">🪸</div><div class="reef" style="right:12px">🌿</div>
+  <div class="pathline"><span>🐠</span><span>🐢</span><span>🦀</span><span>🐬</span><span>🐙</span><span>🦈</span><span>🧜</span><span>💎</span></div>
+  <div class="center"><div class="submarine" id="diver">🤿</div><div style="font-weight:900;position:relative;z-index:2">Explore the ocean!</div></div>
+  <div class="seabed"></div>
+ </div>
+ <div class="topline"><span id="category">VOCABULARY</span><span id="streak">Treasure progress</span></div>
+ <div class="question" id="question"></div>
+ <div class="answers" id="answers"></div>
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+ <button class="secondary hidden" id="next" onclick="nextQuestion()">NEXT DIVE →</button>
+</section>
+
+<section class="panel hidden center" id="finish">
+ <div class="big">🏆🐬💎</div>
+ <h2>YOU FOUND THE OCEAN TREASURE!</h2>
+ <p id="finalName" style="font-size:20px;font-weight:900"></p>
+ <p style="font-size:24px">Your score: <b id="finalScore"></b> / 100</p>
+ <p>Fantastic work, Ocean Explorer!</p>
+ <button onclick="location.reload()">PLAY AGAIN</button>
+</section>
+<div class="center"><button id="soundBtn" onclick="toggleSound()">🔊 Sound ON</button></div>
+<div class="footer">Made with care by Ms. Amani</div>
+</div>
+<script>
+const questions=[
+ {c:"VOCABULARY",q:"Which animal is the biggest?",a:["Blue whale","Sea horse","Clownfish","Crab"],k:0},
+ {c:"GRAMMAR",q:"The dolphins ___ jumping.",a:["is","are","am","be"],k:1},
+ {c:"PREPOSITIONS",q:"The fish is ___ the rock.",a:["under","between","yesterday","quickly"],k:0},
+ {c:"SPELLING",q:"Choose the correct spelling.",a:["Octupus","Octopus","Octapus","Octopos"],k:1},
+ {c:"PLURALS",q:"What is the plural of “fish”?",a:["Fish","Fisheses","Fishs","Fishies"],k:0},
+ {c:"VOCABULARY",q:"What do we use to breathe underwater?",a:["A spoon","A snorkel","A blanket","A pencil"],k:1},
+ {c:"TENSES",q:"Yesterday, we ___ a turtle.",a:["see","seeing","saw","sees"],k:2},
+ {c:"READING",q:"Mia sees a red starfish. What color is the starfish?",a:["Blue","Green","Red","Yellow"],k:2},
+ {c:"ARTICLES",q:"I can see ___ orange fish.",a:["a","an","the are","two of"],k:1},
+ {c:"WORD MEANING",q:"What does “enormous” mean?",a:["Very tiny","Very noisy","Very fast","Very big"],k:3}
+];
+let index=0,score=0,avatar="🤿",soundOn=true,locked=false,audioCtx=null;
+function pickAvatar(btn){document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));btn.classList.add("selected");avatar=btn.dataset.avatar}
+function audio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume();return audioCtx}
+function tone(freq,duration,type="sine",vol=.08,delay=0){if(!soundOn)return;try{const c=audio(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(freq,c.currentTime+delay);g.gain.setValueAtTime(.0001,c.currentTime+delay);g.gain.exponentialRampToValueAtTime(vol,c.currentTime+delay+.02);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+delay+duration);o.connect(g);g.connect(c.destination);o.start(c.currentTime+delay);o.stop(c.currentTime+delay+duration+.03)}catch(e){}}
+function sound(kind){
+ if(!soundOn)return;
+ if(kind==="start"){[440,554,659,880].forEach((f,i)=>tone(f,.22,"sine",.07,i*.13))}
+ if(kind==="correct"){[523,659,784].forEach((f,i)=>tone(f,.18,"triangle",.09,i*.10))}
+ if(kind==="wrong"){tone(220,.25,"sawtooth",.045);tone(180,.3,"sawtooth",.035,.18)}
+ if(kind==="move"){tone(330,.12,"sine",.04);tone(495,.16,"sine",.04,.12)}
+ if(kind==="finish"){[523,659,784,1047,784,1047].forEach((f,i)=>tone(f,.28,"triangle",.09,i*.16))}
+}
+function startGame(){
+ const name=document.getElementById("student").value.trim();if(!name){document.getElementById("student").focus();alert("Please enter your name first!");return}
+ audio();sound("start");document.getElementById("welcome").textContent="Welcome, "+name+"!";document.getElementById("diver").textContent=avatar;
+ document.getElementById("start").classList.add("hidden");document.getElementById("game").classList.remove("hidden");showQuestion()
+}
+function showQuestion(){
+ locked=false;const q=questions[index];document.getElementById("count").textContent=index+1;document.getElementById("category").textContent=q.c;document.getElementById("question").textContent=q.q;document.getElementById("feedback").textContent="Choose the best answer!";document.getElementById("next").classList.add("hidden");document.getElementById("bar").style.width=(index*10)+"%";document.getElementById("answers").innerHTML="";
+ q.a.forEach((answer,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+i)+". "+answer;b.onclick=()=>choose(i,b);document.getElementById("answers").appendChild(b)})
+}
+function choose(i,btn){
+ if(locked)return;const q=questions[index];const all=[...document.querySelectorAll(".answer")];
+ if(i===q.k){locked=true;score+=10;document.getElementById("score").textContent=score;btn.classList.add("correct");document.getElementById("feedback").textContent="Correct! Amazing work! +10 points";sound("correct");sound("move");document.getElementById("diver").style.transform="translateY(-13px) scale(1.12)";all.forEach(x=>x.disabled=true);document.getElementById("next").classList.remove("hidden");document.getElementById("next").textContent=index===questions.length-1?"CLAIM YOUR TREASURE!":"NEXT DIVE →";document.getElementById("bar").style.width=((index+1)*10)+"%"}
+ else{btn.classList.add("wrong");btn.disabled=true;document.getElementById("feedback").textContent="Not quite! Try another answer.";sound("wrong")}
+}
+function nextQuestion(){index++;document.getElementById("diver").style.transform="";if(index<questions.length)showQuestion();else finish()}
+function finish(){document.getElementById("game").classList.add("hidden");document.getElementById("finish").classList.remove("hidden");document.getElementById("finalName").textContent=document.getElementById("student").value.trim()+", you are an ocean superstar!";document.getElementById("finalScore").textContent=score;sound("finish")}
+function toggleSound(){soundOn=!soundOn;document.getElementById("soundBtn").textContent=soundOn?"🔊 Sound ON":"🔇 Sound OFF";if(soundOn){audio();sound("correct")}}
+</script>
+</body>
+</html>
