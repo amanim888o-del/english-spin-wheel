@@ -16,3 +16,5 @@
 [Play Build a Monster](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_build_a_monster.html)
 ### 7. Space Mission
 [Play Space Mission](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_space_mission.html)
+### 8. Dinosaur Castle
+[Play Dinosaur Castle](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_dinosaur_castle.html)
