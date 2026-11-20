@@ -24,3 +24,5 @@
 [Play Candy Land](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_candy_land.html)
 ### 11. Reward Room
 [Open Reward Room](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_reward_room.html)
+### 12. English Race
+[Play English Race](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_english_race.html)
