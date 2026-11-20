@@ -32,3 +32,5 @@
 [Play Cooking Challenge](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_cooking_challenge.html)
 ### 15. Princess Castle
 [Play Princess Castle](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_princess_castle.html)
+### 16. Mystery Mansion
+[Play Mystery Mansion](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_mystery_mansion.html)
