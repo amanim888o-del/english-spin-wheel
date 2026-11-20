@@ -26,3 +26,5 @@
 [Open Reward Room](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_reward_room.html)
 ### 12. English Race
 [Play English Race](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_english_race.html)
+### 13. Jungle Safari Adventure
+[Play Jungle Safari](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_jungle_safari.html)
