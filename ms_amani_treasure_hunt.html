@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms. Amani's Treasure Hunt</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{--navy:#142b4a;--gold:#ffd45a;--cream:#fff8e8;--teal:#36c5b2;--pink:#ff8fba}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:'Nunito',sans-serif;color:#17304d;background:linear-gradient(145deg,#102b4d,#174d68 55%,#102b4d);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 15% 20%,#ffffff16 0 2px,transparent 3px),radial-gradient(circle at 80% 15%,#ffd45a35 0 2px,transparent 3px),radial-gradient(circle at 65% 75%,#ffffff20 0 2px,transparent 3px);background-size:110px 110px}
+.wrap{width:min(980px,94vw);margin:22px auto 40px}.brand{text-align:center;color:#fff;margin-bottom:15px}.brand .eyebrow{letter-spacing:4px;font-size:12px;font-weight:900;color:#8fe8dc}.brand h1{font:800 clamp(30px,6vw,52px)/1 'Baloo 2',cursive;margin:5px 0;color:#ffe28a;text-shadow:0 4px 0 #9d6326,0 8px 22px #0006}.brand p{margin:6px 0;color:#d8f3f1;font-weight:700}
+.panel{background:linear-gradient(160deg,#fffdf5,#fff2d8);border:4px solid #f5c75a;border-radius:28px;box-shadow:0 18px 45px #06172b88;padding:clamp(18px,4vw,32px);position:relative;overflow:hidden}
+.panel:after{content:"✦";position:absolute;right:18px;top:8px;color:#e9bd4c;font-size:30px;opacity:.6}
+h2{font:800 28px 'Baloo 2',cursive;margin:0 0 8px;color:#193b5a}.sub{color:#58718a;margin:0 0 18px;font-weight:700}
+label{display:block;font-weight:900;margin:12px 0 6px}input{width:100%;padding:14px 16px;border:2px solid #d6dfdf;border-radius:14px;font:700 16px 'Nunito';outline:none}input:focus{border-color:#36bda9;box-shadow:0 0 0 4px #36bda922}
+.gender{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 20px}.gender button{background:#fff;border:2px solid #d8e0df;border-radius:18px;padding:12px;font:900 17px 'Nunito';color:#24445d;cursor:pointer}.gender button.selected{border-color:#36bda9;background:#e7fbf5;box-shadow:0 0 0 3px #36bda922}.avatar-preview{font-size:56px;display:block;margin-bottom:3px}
+.btn{border:0;border-radius:16px;padding:13px 24px;background:linear-gradient(180deg,#ffe47c,#f4b936);color:#54350b;font:900 17px 'Nunito';box-shadow:0 5px 0 #bd8425;cursor:pointer;transition:.15s}.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #bd8425}.btn:disabled{opacity:.45;cursor:not-allowed}
+.center{text-align:center}.hidden{display:none!important}
+.hud{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}.pill{background:#173d5c;color:#fff;border:2px solid #f5ce68;border-radius:30px;padding:8px 14px;font-weight:900}.pill span{color:#ffe28a}
+.scene{position:relative;height:270px;border-radius:22px;overflow:hidden;border:3px solid #dcae51;background:linear-gradient(#153c5b 0 45%,#245c62 45% 100%);margin:12px 0 18px}
+.scene:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 18%,#fff 0 1px,transparent 2px),radial-gradient(circle at 72% 28%,#ffe68b 0 2px,transparent 3px),radial-gradient(circle at 42% 12%,#fff 0 1px,transparent 2px);background-size:75px 65px;opacity:.7}
+.mountain{position:absolute;bottom:60px;width:0;height:0;border-left:120px solid transparent;border-right:120px solid transparent;border-bottom:150px solid #1b5361;opacity:.9}.m1{left:10%;}.m2{right:4%;border-bottom-color:#1b4658;transform:scale(.8)}
+.path{position:absolute;left:8%;right:8%;bottom:38px;height:42px;border-radius:50%;background:#b78345;border:5px solid #e5bd70;box-shadow:inset 0 5px 0 #d6a75f}
+.path:after{content:"";position:absolute;inset:7px 0;border-top:3px dashed #f8dfa3}
+.steps{position:absolute;left:9%;right:9%;bottom:48px;display:flex;justify-content:space-between;z-index:2}
+.step{width:28px;height:28px;border-radius:50%;background:#f5d47e;border:3px solid #fff1c2;box-shadow:0 2px 5px #0005}
+.step.done{background:#4ee0bd;border-color:#d8fff4;box-shadow:0 0 14px #62ffe0}
+.player{position:absolute;bottom:67px;left:7%;width:68px;height:115px;z-index:4;transition:left .65s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 5px 4px #0005)}
+.person{position:relative;width:100%;height:100%}.head{position:absolute;top:4px;left:16px;width:38px;height:42px;background:#f4bd91;border-radius:48% 48% 45% 45%;border:2px solid #9a5d42;z-index:3}.hair{position:absolute;top:-5px;left:13px;width:44px;height:27px;background:#39251f;border-radius:55% 55% 25% 20%;z-index:4}.girl .hair{height:74px;width:50px;left:10px;top:-5px;border-radius:50% 50% 35% 35%;box-shadow:9px 35px 0 -3px #39251f,-9px 34px 0 -3px #39251f}.eyes{position:absolute;top:20px;left:9px;width:4px;height:4px;background:#38241d;border-radius:50%;box-shadow:15px 0 #38241d}.smile{position:absolute;top:28px;left:15px;width:9px;height:5px;border-bottom:2px solid #a94f50;border-radius:50%}.body{position:absolute;top:44px;left:13px;width:44px;height:43px;background:#278d9b;border-radius:12px 12px 8px 8px;border:2px solid #176075;z-index:2}.girl .body{background:#e86c9f;border-color:#a84475;border-radius:14px 14px 8px 8px}.legs{position:absolute;top:82px;left:20px;width:12px;height:28px;background:#25435e;border-radius:6px;box-shadow:18px 0 #25435e}.shoes{position:absolute;top:103px;left:14px;width:20px;height:9px;background:#f4c34e;border-radius:8px;box-shadow:18px 0 #f4c34e;z-index:3}
+.treasure{position:absolute;right:5%;bottom:54px;font-size:62px;z-index:3;filter:drop-shadow(0 0 12px #ffe46b);animation:glow 1.4s infinite alternate}.sparkle{position:absolute;color:#fff4a5;font-size:22px;animation:twinkle 1.2s infinite alternate}.s1{right:16%;top:25%}.s2{right:8%;top:48%;animation-delay:.5s}.s3{left:18%;top:36%;animation-delay:.8s}
+@keyframes glow{to{filter:drop-shadow(0 0 25px #fff27a) brightness(1.3);transform:scale(1.08)}}@keyframes twinkle{to{opacity:.25;transform:scale(.6) rotate(30deg)}}
+.progressline{height:10px;background:#e4e7df;border-radius:20px;overflow:hidden;margin:8px 0 14px}.progressline div{height:100%;width:0;background:linear-gradient(90deg,#32c7ac,#ffe071);transition:width .4s}
+.question{background:#fff;border:2px solid #e8d39b;border-radius:20px;padding:20px}.qnum{font-size:12px;letter-spacing:2px;color:#b27c21;font-weight:900}.question h3{font:800 24px 'Baloo 2';margin:5px 0 16px;color:#193b5a}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.answer{padding:13px;border-radius:13px;border:2px solid #d9e3e2;background:#f8fcfa;font:800 16px 'Nunito';color:#23465d;cursor:pointer}.answer:hover{border-color:#38bda9;background:#effcf8}.answer.correct{background:#d9fff0;border-color:#31b98e}.answer.wrong{background:#ffe5e5;border-color:#e78b8b}.feedback{min-height:28px;font-weight:900;margin:12px 0 0}.feedback.good{color:#14865f}.feedback.bad{color:#b64a4a}
+.finish{padding:24px 12px}.finish h2{font-size:clamp(32px,7vw,54px);color:#b77b12;text-shadow:0 2px #ffeaa0}.bigtreasure{font-size:100px;filter:drop-shadow(0 0 22px #ffd94f);animation:glow 1s infinite alternate}.finish p{font-size:21px;font-weight:900;color:#24445d}.confetti{font-size:28px;letter-spacing:7px;animation:twinkle .8s infinite alternate}
+@media(max-width:560px){.scene{height:240px}.answers{grid-template-columns:1fr}.player{transform:scale(.85);transform-origin:bottom left}.treasure{font-size:50px}.question h3{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="brand"><div class="eyebrow">MS. AMANI PRESENTS</div><h1>THE GREAT TREASURE HUNT</h1><p>Answer correctly, take a step, and find the treasure!</p></header>
+<section class="panel" id="start">
+  <div class="center"><h2>Ready for an adventure?</h2><p class="sub">First, tell us who is going on the treasure hunt!</p></div>
+  <label for="studentName">Your name</label><input id="studentName" maxlength="22" placeholder="Type your name here..." autocomplete="off">
+  <label>Choose your character</label>
+  <div class="gender">
+    <button type="button" id="boy" class="selected" onclick="choose('boy')"><span class="avatar-preview">🧑🏻‍🚀</span>Boy</button>
+    <button type="button" id="girl" onclick="choose('girl')"><span class="avatar-preview">👩🏻‍🚀</span>Girl</button>
+  </div>
+  <div class="center"><button class="btn" onclick="startGame()">START THE ADVENTURE!</button></div>
+</section>
+<section class="panel hidden" id="game">
+ <div class="hud"><div class="pill">PLAYER: <span id="playerName"></span></div><div class="pill">STEPS: <span id="stepCount">0 / 8</span></div><div class="pill">SCORE: <span id="score">0</span></div></div>
+ <div class="progressline"><div id="progress"></div></div>
+ <div class="scene">
+  <div class="mountain m1"></div><div class="mountain m2"></div><div class="path"></div>
+  <div class="steps" id="steps"></div>
+  <div class="player" id="player"><div class="person" id="person"><div class="hair"></div><div class="head"><div class="eyes"></div><div class="smile"></div></div><div class="body"></div><div class="legs"></div><div class="shoes"></div></div></div>
+  <div class="treasure">🧰</div><div class="sparkle s1">✦</div><div class="sparkle s2">✧</div><div class="sparkle s3">✦</div>
+ </div>
+ <div class="question"><div class="qnum" id="qnum">QUESTION 1 OF 8</div><h3 id="questionText"></h3><div class="answers" id="answers"></div><div class="feedback" id="feedback" aria-live="polite"></div></div>
+</section>
+<section class="panel hidden center finish" id="finish">
+ <div class="confetti">✦ ✧ ✦ ✧ ✦</div><div class="bigtreasure">💎💰👑</div>
+ <h2>I DID IT! I FOUND THE TREASURE!</h2>
+ <p id="winner"></p><p>You are an amazing treasure hunter!</p>
+ <div style="font-size:38px;margin:12px">👏👏👏👏👏</div>
+ <button class="btn" onclick="location.reload()">PLAY AGAIN</button>
+</section>
+</div>
+<script>
+const questions=[
+{q:"Choose the correct plural: one book, two ____.",a:["books","bookes","book"],c:0},
+{q:"What is the opposite of 'hot'?",a:["warm","cold","sunny"],c:1},
+{q:"She ____ my best friend.",a:["am","are","is"],c:2},
+{q:"Which one is an animal?",a:["pencil","rabbit","window"],c:1},
+{q:"What is the past of 'go'?",a:["goed","goes","went"],c:2},
+{q:"Choose the correct sentence.",a:["He likes apples.","He like apples.","He liking apples."],c:0},
+{q:"How many days are there in a week?",a:["Five","Seven","Ten"],c:1},
+{q:"I ____ breakfast every morning.",a:["eat","eats","eating"],c:0}
+];
+let gender='boy',step=0,score=0,locked=false;
+function choose(g){gender=g;document.getElementById('boy').classList.toggle('selected',g==='boy');document.getElementById('girl').classList.toggle('selected',g==='girl')}
+function startGame(){let n=document.getElementById('studentName').value.trim();if(!n){document.getElementById('studentName').focus();document.getElementById('studentName').placeholder='Please enter your name first!';return}
+document.getElementById('start').classList.add('hidden');document.getElementById('game').classList.remove('hidden');document.getElementById('playerName').textContent=n;document.getElementById('person').className='person '+(gender==='girl'?'girl':'boy');
+document.getElementById('steps').innerHTML=questions.map((_,i)=>'<div class="step" id="dot'+i+'"></div>').join('');showQuestion()}
+function showQuestion(){locked=false;let q=questions[step];document.getElementById('qnum').textContent=`QUESTION ${step+1} OF ${questions.length}`;document.getElementById('questionText').textContent=q.q;document.getElementById('feedback').textContent='';document.getElementById('feedback').className='feedback';document.getElementById('answers').innerHTML='';
+q.a.forEach((a,i)=>{let b=document.createElement('button');b.className='answer';b.textContent=a;b.onclick=()=>answer(i,b);document.getElementById('answers').appendChild(b)})}
+function answer(i,btn){if(locked)return;let q=questions[step];if(i===q.c){locked=true;btn.classList.add('correct');score+=10;document.getElementById('score').textContent=score;document.getElementById('feedback').textContent='Correct! Great job! One step forward!';document.getElementById('feedback').className='feedback good';document.getElementById('dot'+step).classList.add('done');step++;document.getElementById('stepCount').textContent=step+' / '+questions.length;document.getElementById('progress').style.width=(step/questions.length*100)+'%';document.getElementById('player').style.left=(7+step*10.4)+'%';setTimeout(()=>{if(step===questions.length)finishGame();else showQuestion()},1000)}
+else{btn.classList.add('wrong');document.getElementById('feedback').textContent='Not quite! You stay here. Try again!';document.getElementById('feedback').className='feedback bad'}}
+function finishGame(){document.getElementById('game').classList.add('hidden');document.getElementById('finish').classList.remove('hidden');document.getElementById('winner').textContent=document.getElementById('playerName').textContent+', you found the treasure and scored '+score+' points!';try{let ctx=new(window.AudioContext||window.webkitAudioContext)();let now=ctx.currentTime;for(let j=0;j<22;j++){let o=ctx.createOscillator(),g=ctx.createGain();o.type='square';o.frequency.value=500+Math.random()*900;g.gain.setValueAtTime(.0001,now+j*.075);g.gain.exponentialRampToValueAtTime(.045,now+j*.075+.01);g.gain.exponentialRampToValueAtTime(.0001,now+j*.075+.055);o.connect(g);g.connect(ctx.destination);o.start(now+j*.075);o.stop(now+j*.075+.06)}}catch(e){}}
+</script>
+</body>
+</html>
