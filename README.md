@@ -22,3 +22,5 @@
 [Play Underwater Adventure](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_underwater_adventure.html)
 ### 10. Candy Land
 [Play Candy Land](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_candy_land.html)
+### 11. Reward Room
+[Open Reward Room](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_reward_room.html)
