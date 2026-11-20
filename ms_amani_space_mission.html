@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms. Amani's Space Mission</title>
+<style>
+:root{--ink:#f7f4ff;--muted:#c9c3e8;--panel:rgba(20,19,62,.82);--pink:#ff70c8;--cyan:#65e8ff;--gold:#ffd66b}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:radial-gradient(circle at 15% 15%,#45318c 0,transparent 28%),radial-gradient(circle at 85% 20%,#174e83 0,transparent 30%),linear-gradient(145deg,#080b25,#171044 55%,#090d2c);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#a7f2ff 1px,transparent 1.5px);background-size:83px 83px,127px 127px;background-position:0 0,34px 48px;opacity:.48}
+.wrap{width:min(940px,94%);margin:auto;padding:22px 0 38px;position:relative}
+header{text-align:center;margin:5px 0 18px}
+.brand{display:inline-block;padding:7px 16px;border:1px solid #8ceaff88;border-radius:99px;background:#101b4eaa;color:#9df1ff;font-weight:800;letter-spacing:2px;font-size:.78rem}
+h1{font-size:clamp(2rem,7vw,3.6rem);line-height:1.05;margin:14px 0 8px;text-shadow:0 0 25px #8b7bff}
+h1 span{color:var(--gold)}
+.sub{color:var(--muted);margin:0}
+.card{background:var(--panel);border:1px solid #a9a2ff55;border-radius:24px;padding:clamp(17px,4vw,28px);box-shadow:0 18px 55px #0007;backdrop-filter:blur(10px)}
+.center{text-align:center}
+input{width:100%;max-width:420px;padding:14px 16px;border-radius:14px;border:2px solid #7770c8;background:#0d1238;color:white;font-size:1rem;outline:none}
+input:focus{border-color:var(--cyan)}
+button{border:0;border-radius:14px;padding:13px 18px;font-size:1rem;font-weight:800;cursor:pointer;color:#171039;background:linear-gradient(120deg,var(--cyan),#b7a5ff);box-shadow:0 5px 0 #4e4c9b;transition:.15s}
+button:active{transform:translateY(3px);box-shadow:0 2px 0 #4e4c9b}
+button:disabled{opacity:.45;cursor:not-allowed}
+.primary{background:linear-gradient(120deg,#ffe17b,#ff8fbd)}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px auto;max-width:520px}
+.choice{background:#24215f;color:white;border:1px solid #aaa2ff88;box-shadow:none}
+.choice.selected{outline:3px solid var(--gold);background:#40337f}
+.hidden{display:none!important}
+.mission-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:15px}
+.pill{background:#090f35;border:1px solid #7c83df88;border-radius:99px;padding:8px 13px;color:#dcd8ff;font-weight:700}
+.progress{height:12px;background:#080d2d;border-radius:99px;overflow:hidden;margin:12px 0 20px;border:1px solid #ffffff25}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#69eaff,#c18cff,#ff8bc9);transition:width .4s}
+.scene{display:flex;align-items:center;justify-content:center;gap:14px;min-height:145px;margin:4px 0 15px;position:relative}
+.planet{font-size:clamp(3.4rem,11vw,6rem);filter:drop-shadow(0 0 18px #ffb6ee);animation:float 3s ease-in-out infinite}
+.rocket{font-size:clamp(3.3rem,10vw,5.2rem);animation:float 2.4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px) rotate(3deg)}}
+.stars{font-size:1.4rem;letter-spacing:8px;color:var(--gold)}
+.qnum{color:#9defff;font-weight:900;letter-spacing:1px;text-transform:uppercase;font-size:.82rem}
+.question{font-size:clamp(1.3rem,4vw,1.8rem);font-weight:850;margin:8px 0 17px}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.answer{background:#29245f;color:white;border:1px solid #a9a2ff88;box-shadow:none;text-align:left;min-height:58px}
+.answer.correct{background:#17634f;border:2px solid #7fffd2}
+.answer.wrong{background:#702c59;border:2px solid #ff9ac8}
+.feedback{min-height:30px;text-align:center;font-weight:800;margin:14px 0 4px;color:var(--gold)}
+.nextrow{text-align:center;margin-top:10px}
+.footer{text-align:center;color:#a9a4d2;font-size:.82rem;margin-top:18px}
+.reward{font-size:clamp(4rem,15vw,7rem);margin:10px}
+.result-title{font-size:clamp(1.8rem,6vw,3rem);color:var(--gold);margin:8px 0}
+@media(max-width:520px){.answers{grid-template-columns:1fr}.choices{grid-template-columns:1fr 1fr}.scene{min-height:110px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">MS. AMANI • ENGLISH ADVENTURES</div>
+  <h1>SPACE <span>MISSION</span></h1>
+  <p class="sub">Blast off, answer English questions, and discover a new planet!</p>
+</header>
+
+<section id="start" class="card center">
+  <div class="scene"><div class="rocket">🚀</div><div class="planet">🪐</div></div>
+  <h2>Ready, Space Explorer?</h2>
+  <p class="sub">Enter your name, choose your astronaut, and start your mission.</p>
+  <p><input id="playerName" maxlength="20" placeholder="Your name" aria-label="Your name"></p>
+  <div class="choices">
+    <button class="choice selected" id="astronaut1" onclick="pickAstronaut('👩‍🚀',this)">👩‍🚀<br>Astro Girl</button>
+    <button class="choice" id="astronaut2" onclick="pickAstronaut('👨‍🚀',this)">👨‍🚀<br>Astro Boy</button>
+  </div>
+  <button class="primary" onclick="startMission()">START MISSION</button>
+</section>
+
+<section id="game" class="card hidden">
+  <div class="mission-top">
+    <span class="pill" id="welcome">Explorer</span>
+    <span class="pill">⭐ Score: <b id="score">0</b></span>
+    <span class="pill">🛰️ <b id="progressText">0/10</b></span>
+  </div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+  <div class="scene"><span class="rocket" id="rocket">🚀</span><span class="planet" id="planet">🪐</span></div>
+  <div class="center stars">✦ · ✧ · ✦ · ✧ · ✦</div>
+  <div class="qnum" id="qnum">MISSION 1</div>
+  <div class="question" id="question">Question goes here</div>
+  <div class="answers" id="answers"></div>
+  <div class="feedback" id="feedback" aria-live="polite"></div>
+  <div class="nextrow"><button id="nextBtn" class="primary hidden" onclick="nextQuestion()">NEXT MISSION →</button></div>
+</section>
+
+<section id="finish" class="card center hidden">
+  <div class="reward">🏆🪐💎</div>
+  <div class="brand">MISSION COMPLETE</div>
+  <h2 class="result-title">YOU ARE A SPACE HERO!</h2>
+  <h2 id="winnerName"></h2>
+  <p id="finalScore" class="sub"></p>
+  <p style="font-size:1.2rem">You discovered Planet English and earned your Space Explorer Award!</p>
+  <div style="font-size:3rem">🥇 🌟 🚀</div>
+  <button class="primary" onclick="restart()">PLAY AGAIN</button>
+</section>
+<div class="footer">Made with stardust by <b>Ms. Amani</b> ✦ Learn • Play • Shine</div>
+</div>
+<script>
+const questions = [
+ {q:"Choose the correct plural: one star, two ____.",a:["stars","stares","star","star's"],c:0,why:"Great! We add -s to make most nouns plural."},
+ {q:"Which planet is known as the Red Planet?",a:["Earth","Mars","Venus","Jupiter"],c:1,why:"Correct! Mars is called the Red Planet."},
+ {q:"Complete: She ____ an astronaut.",a:["am","are","is","be"],c:2,why:"Yes! We use 'is' with she."},
+ {q:"What is the opposite of 'fast'?",a:["quick","slow","strong","high"],c:1,why:"That's right! The opposite of fast is slow."},
+ {q:"Choose the correct sentence.",a:["He have a rocket.","He has a rocket.","He having a rocket.","He haves a rocket."],c:1,why:"Excellent! He has a rocket."},
+ {q:"Which word is an adjective?",a:["beautiful","run","planet","quickly"],c:0,why:"Beautiful describes a noun, so it is an adjective."},
+ {q:"Complete: The astronauts ____ in space.",a:["is","am","are","be"],c:2,why:"Correct! We use 'are' with astronauts."},
+ {q:"What do we use to see faraway stars?",a:["A spoon","A telescope","A pillow","A brush"],c:1,why:"A telescope helps us see distant objects in space."},
+ {q:"Choose the past tense of 'go'.",a:["goed","going","goes","went"],c:3,why:"Well done! The past tense of go is went."},
+ {q:"Complete: There ____ eight planets in our solar system.",a:["are","is","am","be"],c:0,why:"Amazing! We use 'are' with plural nouns."}
+];
+let index=0,score=0,astronaut='👩‍🚀',locked=false,player='';
+function pickAstronaut(icon,el){astronaut=icon;document.querySelectorAll('.choice').forEach(b=>b.classList.remove('selected'));el.classList.add('selected')}
+function startMission(){
+ player=document.getElementById('playerName').value.trim()||'Space Explorer';
+ document.getElementById('start').classList.add('hidden');document.getElementById('game').classList.remove('hidden');
+ document.getElementById('welcome').textContent=astronaut+' '+player;index=0;score=0;renderQuestion();
+}
+function renderQuestion(){
+ locked=false;const q=questions[index];
+ document.getElementById('score').textContent=score;document.getElementById('progressText').textContent=index+'/'+questions.length;
+ document.getElementById('bar').style.width=(index/questions.length*100)+'%';
+ document.getElementById('qnum').textContent='MISSION '+(index+1)+' OF '+questions.length;
+ document.getElementById('question').textContent=q.q;
+ document.getElementById('feedback').textContent='';
+ document.getElementById('nextBtn').classList.add('hidden');
+ document.getElementById('rocket').textContent=astronaut;
+ document.getElementById('planet').textContent=['🪐','🔴','🌙','🌎','☄️'][index%5];
+ const box=document.getElementById('answers');box.innerHTML='';
+ q.a.forEach((answer,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+answer;b.onclick=()=>choose(i,b);box.appendChild(b)});
+}
+function choose(i,btn){
+ if(locked)return;locked=true;const q=questions[index];const all=[...document.querySelectorAll('.answer')];
+ if(i===q.c){score+=10;btn.classList.add('correct');document.getElementById('feedback').textContent='✓ '+q.why}
+ else{btn.classList.add('wrong');all[q.c].classList.add('correct');document.getElementById('feedback').textContent='Not quite! '+q.why}
+ document.getElementById('score').textContent=score;
+ all.forEach(b=>b.disabled=true);
+ document.getElementById('nextBtn').textContent=index===questions.length-1?'LAND ON THE PLANET!':'NEXT MISSION →';
+ document.getElementById('nextBtn').classList.remove('hidden');
+}
+function nextQuestion(){index++;if(index>=questions.length){finish()}else{renderQuestion()}}
+function finish(){
+ document.getElementById('game').classList.add('hidden');document.getElementById('finish').classList.remove('hidden');
+ document.getElementById('winnerName').textContent=player+' '+astronaut;
+ document.getElementById('finalScore').textContent='Your score: '+score+' / 100 points';
+ document.getElementById('bar').style.width='100%';
+}
+function restart(){document.getElementById('finish').classList.add('hidden');document.getElementById('start').classList.remove('hidden');document.getElementById('playerName').value='';}
+</script>
+</body>
+</html>
