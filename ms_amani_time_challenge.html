@@ -3,188 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ms. Amani - Time Challenge</title>
+<title>Ms. Amani's Time Challenge</title>
 <style>
-:root{--ink:#30234b;--pink:#ff78b7;--purple:#8c65e8;--yellow:#ffd86b;--mint:#79e3ce}
+:root{--ink:#26324a;--pink:#ff7eb6;--purple:#8b7cf6;--blue:#67c7e8;--yellow:#ffd66b;--mint:#75d9bd}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink);
-background:radial-gradient(circle at 12% 15%,#ffd4eb 0 8%,transparent 9%),radial-gradient(circle at 88% 18%,#d9d0ff 0 9%,transparent 10%),radial-gradient(circle at 10% 88%,#c8f7ed 0 10%,transparent 11%),linear-gradient(135deg,#ffb7d8,#c7b7ff 48%,#a9e9e2);overflow-x:hidden}
-.sticker{position:fixed;z-index:0;pointer-events:none;filter:drop-shadow(0 5px 2px #654b8a22);opacity:.9}
-.s1{top:3%;left:4%;font-size:48px;transform:rotate(-15deg)}.s2{top:9%;right:5%;font-size:43px;transform:rotate(12deg)}
-.s3{bottom:5%;left:4%;font-size:46px}.s4{bottom:8%;right:5%;font-size:50px;transform:rotate(15deg)}
-.s5{top:48%;left:1%;font-size:28px}.s6{top:57%;right:2%;font-size:30px}
-.wrap{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 14px}
-.app{width:min(760px,100%);background:#fff9fdf0;border:4px solid #fff;border-radius:30px;box-shadow:0 18px 50px #563b7933;padding:clamp(20px,5vw,38px);position:relative}
-.ribbon{text-align:center;color:#7651c7;font-weight:900;letter-spacing:2px;font-size:13px}
-h1{font-size:clamp(30px,7vw,48px);line-height:1.08;text-align:center;margin:10px 0;color:#6945b6}
-.subtitle{text-align:center;font-size:17px;margin:0 0 20px;color:#765e91}
-.sticker-row{text-align:center;font-size:30px;letter-spacing:8px;margin:10px}
-.panel{background:#fff;border:2px solid #f0dcff;border-radius:22px;padding:22px;margin-top:16px}
-label{display:block;font-weight:800;margin:8px 0}
-input{width:100%;padding:15px 16px;border:2px solid #decdfb;border-radius:14px;font-size:18px;outline:none;color:var(--ink)}
-input:focus{border-color:var(--purple);box-shadow:0 0 0 4px #8c65e822}
-.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
-.level{border:0;border-radius:15px;padding:13px 7px;font-weight:900;font-size:15px;color:#49365f;cursor:pointer;background:#eee6ff;box-shadow:0 4px 0 #d8c8f7}
-.level:nth-child(2){background:#ffe3f0;box-shadow:0 4px 0 #f8c5df}.level:nth-child(3){background:#d9f8ef;box-shadow:0 4px 0 #b4e9dc}
-.level.selected{outline:3px solid #6945b6;transform:translateY(-2px)}
-button{font-family:inherit}
-.primary{width:100%;border:0;border-radius:17px;padding:16px;background:linear-gradient(90deg,#ff78b7,#9069e9);color:white;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 0 #7049bd}
-.primary:active,.choice:active{transform:translateY(2px);box-shadow:none}
-.hint{text-align:center;color:#8b789f;font-size:13px;margin:14px 0 0}
-.hidden{display:none!important}
-.topline{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;font-weight:900}
-.pill{background:#f0e9ff;border-radius:30px;padding:9px 13px}
-.progress{height:12px;background:#eee4f8;border-radius:20px;overflow:hidden;margin:18px 0}
-.bar{height:100%;width:0;background:linear-gradient(90deg,#ff80b9,#8c65e8);transition:width .3s}
-.timerbox{display:flex;align-items:center;gap:10px;justify-content:center;margin:10px}
-.timer{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#fff0a8;border:5px solid #ffcf59;font-size:25px;font-weight:1000}
-.question{font-size:clamp(23px,5vw,32px);text-align:center;font-weight:900;min-height:88px;display:grid;place-items:center;margin:16px 0;color:#4e3975}
-.choices{display:grid;gap:12px}
-.choice{border:2px solid #e8dafa;background:#fff;border-radius:16px;padding:15px;text-align:left;font-size:18px;font-weight:800;color:#49365f;cursor:pointer;box-shadow:0 4px 0 #e9def6}
-.choice.correct{background:#d9faeb;border-color:#55c99e}.choice.wrong{background:#ffe0e9;border-color:#f27da1}
-.feedback{text-align:center;min-height:28px;font-weight:900;margin:13px 0;color:#7451ba}
-.next{margin-top:8px}
+body{margin:0;min-height:100vh;font-family: "Trebuchet MS", Arial, sans-serif;color:var(--ink);background:linear-gradient(135deg,#dff7ff 0%,#f9e6ff 48%,#fff2d6 100%);overflow-x:hidden}
+.sticker{position:fixed;font-size:clamp(28px,5vw,54px);opacity:.75;pointer-events:none;z-index:0;filter:drop-shadow(0 4px 4px #53608022)}
+.s1{top:4%;left:4%;transform:rotate(-15deg)}.s2{top:12%;right:5%;transform:rotate(12deg)}.s3{bottom:9%;left:5%;transform:rotate(12deg)}.s4{bottom:5%;right:7%;transform:rotate(-12deg)}.s5{top:48%;right:2%}
+.wrap{position:relative;z-index:1;width:min(760px,94%);margin:22px auto;padding:clamp(16px,4vw,30px);background:#ffffffd9;border:3px solid white;border-radius:30px;box-shadow:0 18px 50px #58648a25}
+header{text-align:center;margin-bottom:18px}
+.brand{display:inline-block;padding:7px 16px;border-radius:30px;background:#fff0f7;color:#bb4c85;font-weight:800;letter-spacing:.5px}
+h1{font-size:clamp(30px,6vw,48px);margin:12px 0 6px;color:#6653c9}
+.subtitle{margin:0;color:#65718b;font-size:16px}
+.screen{display:none}.screen.active{display:block}
+.namebox{max-width:440px;margin:22px auto 0;text-align:left}
+label{display:block;font-weight:800;margin:0 0 8px}
+input{width:100%;padding:15px 16px;border:2px solid #d8d5ff;border-radius:15px;font-size:18px;color:var(--ink);background:white;outline:none}
+input:focus{border-color:var(--purple);box-shadow:0 0 0 4px #8b7cf622}
+button{border:0;border-radius:16px;padding:14px 20px;font-size:17px;font-weight:800;cursor:pointer;transition:transform .15s,filter .15s}
+button:active{transform:scale(.97)}
+.primary{display:block;width:100%;margin-top:14px;color:white;background:linear-gradient(100deg,#8b7cf6,#f17fb4);box-shadow:0 7px 16px #8b7cf633}
+.pills{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:16px 0}
+.pill{background:#f0edff;padding:8px 13px;border-radius:30px;font-size:14px;font-weight:800}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.level{padding:14px 8px;border-radius:17px;border:2px solid #eeeaff;background:white;text-align:center}
+.level strong{display:block;font-size:17px}.level small{color:#73809a}
+.level.easy{background:#e8fff6;border-color:#bceedd}.level.medium{background:#fff6dc;border-color:#ffe6a1}.level.hard{background:#ffeaf3;border-color:#ffc9df}
+.topline{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.stat{background:#f3f1ff;border-radius:12px;padding:9px 12px;font-weight:800}
+.timer-wrap{display:flex;align-items:center;gap:12px;margin:18px 0}
+.timer{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--pink) 100%,#eee 0);font-size:20px;font-weight:900;flex-shrink:0;position:relative}
+.timer:before{content:"";position:absolute;inset:6px;background:white;border-radius:50%}.timer span{position:relative}
+.timer-copy{font-weight:800}.timer-copy small{display:block;color:#71809a;font-weight:500}
+.progress{height:10px;background:#eeeafc;border-radius:20px;overflow:hidden;margin:12px 0 20px}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,#72d9bd,#8b7cf6);transition:width .2s}
+.card{background:#fff;border:2px solid #eeeaff;border-radius:22px;padding:clamp(18px,4vw,28px);text-align:center}
+.qcount{color:#8a7bd7;font-weight:900;font-size:14px}
+.question{font-size:clamp(23px,5vw,32px);font-weight:900;line-height:1.25;margin:13px 0 20px}
+.choices{display:grid;grid-template-columns:1fr;gap:10px}
+.choice{background:#f6f4ff;border:2px solid #e4dfff;color:var(--ink);text-align:left}
+.choice:hover{filter:brightness(.98);transform:translateY(-1px)}
+.choice.correct{background:#dff9ed;border-color:#67c99e}.choice.wrong{background:#ffe5e9;border-color:#f18a9d}
+.feedback{min-height:30px;margin:14px 0 0;font-weight:900;font-size:18px}
+.next{display:none;background:#6653c9;color:white;width:100%;margin-top:10px}
 .result{text-align:center}
-.bigscore{font-size:clamp(42px,10vw,68px);font-weight:1000;color:#764bd0;margin:8px}
-.result-name{font-size:22px;font-weight:900}
-.stars{font-size:38px;letter-spacing:6px;margin:12px}
-.smallprint{font-size:13px;color:#88799a}
-@media(max-width:480px){.app{border-radius:23px;padding:18px}.levels{gap:7px}.level{font-size:13px;padding:12px 4px}.panel{padding:16px}.s1,.s2{font-size:34px}}
+.bigscore{font-size:54px;font-weight:1000;color:#6653c9;margin:12px}
+.result p{font-size:18px;line-height:1.5}
+.secondary{background:#f0edff;color:#6653c9;margin-top:10px;width:100%}
+footer{text-align:center;color:#8791a7;font-size:13px;margin-top:18px}
+@media(min-width:560px){.choices{grid-template-columns:1fr 1fr}.choice:last-child:nth-child(odd){grid-column:1/-1}}
 </style>
 </head>
 <body>
-<div class="sticker s1">⭐</div><div class="sticker s2">🦋</div><div class="sticker s3">🌈</div>
-<div class="sticker s4">💖</div><div class="sticker s5">☁️</div><div class="sticker s6">✨</div>
-<main class="wrap"><section class="app">
-  <div class="ribbon">✦ MS. AMANI'S ENGLISH CLUB ✦</div>
-  <div class="sticker-row">🎀 🌸 🪄 🌷</div>
-  <section id="start">
-    <h1>Time Challenge!</h1>
-    <p class="subtitle">Think fast, choose wisely, and shine!</p>
-    <div class="panel">
-      <label for="studentName">What's your name, superstar?</label>
-      <input id="studentName" maxlength="24" placeholder="Type your name here..." autocomplete="off">
-      <label>Choose your level</label>
-      <div class="levels">
-        <button class="level selected" data-level="easy">🌼 Easy</button>
-        <button class="level" data-level="medium">🦋 Medium</button>
-        <button class="level" data-level="hard">🚀 Hard</button>
-      </div>
-      <button class="primary" id="startBtn">Let's Play! ✨</button>
-      <p class="hint">10 questions • 15 seconds each • 3 choices</p>
-    </div>
-  </section>
+<div class="sticker s1">⭐</div><div class="sticker s2">🌈</div><div class="sticker s3">🦋</div><div class="sticker s4">🎈</div><div class="sticker s5">🍭</div>
+<main class="wrap">
+<header><div class="brand">MS. AMANI'S ENGLISH CLUB</div><h1>⏰ Time Challenge!</h1><p class="subtitle">Think fast, choose wisely, and beat the clock!</p></header>
 
-  <section id="game" class="hidden">
-    <div class="topline"><span class="pill" id="playerTag">Player</span><span class="pill" id="levelTag">Easy</span><span class="pill">⭐ <span id="score">0</span></span></div>
-    <div class="progress"><div class="bar" id="bar"></div></div>
-    <div class="topline"><span id="questionCount">Question 1 / 10</span><span>⏳ Beat the clock!</span></div>
-    <div class="timerbox"><div class="timer" id="timer">15</div></div>
-    <div class="question" id="question"></div>
-    <div class="choices" id="choices"></div>
-    <div class="feedback" id="feedback" aria-live="polite"></div>
-    <button class="primary next hidden" id="nextBtn">Next question ➜</button>
-  </section>
-
-  <section id="result" class="hidden result">
-    <div class="sticker-row">🏆 🎉 🌟</div>
-    <h1>Amazing work!</h1>
-    <div class="result-name" id="resultName"></div>
-    <div class="bigscore" id="finalScore">0 / 100</div>
-    <div class="stars" id="rating">⭐⭐⭐</div>
-    <p class="subtitle" id="resultMessage"></p>
-    <div class="panel">
-      <p><strong>Correct answers:</strong> <span id="correctCount"></span> / 10</p>
-      <p><strong>Level:</strong> <span id="resultLevel"></span></p>
-      <button class="primary" id="againBtn">Play Again! 💗</button>
+<section id="start" class="screen active">
+  <div class="pills"><span class="pill">⏱️ 15 seconds each</span><span class="pill">⭐ Earn points</span><span class="pill">🎯 3 choices</span></div>
+  <div class="namebox">
+    <label for="playerName">What's your name, superstar?</label>
+    <input id="playerName" maxlength="24" placeholder="Type your name here..." autocomplete="given-name">
+    <div class="levels">
+      <div class="level easy"><strong>🌱 Easy</strong><small>Warm up</small></div>
+      <div class="level medium"><strong>🌟 Medium</strong><small>Level up</small></div>
+      <div class="level hard"><strong>🔥 Challenge</strong><small>Go for it!</small></div>
     </div>
-  </section>
-  <p class="smallprint" style="text-align:center;margin:20px 0 0">Made with love • Ms. Amani</p>
-</section></main>
+    <button class="primary" id="startBtn">Let's Play! 🚀</button>
+  </div>
+</section>
+
+<section id="game" class="screen">
+  <div class="topline"><div class="stat">👩‍🎓 <span id="displayName"></span></div><div class="stat">⭐ Score: <span id="score">0</span></div><div class="stat">Question <span id="number">1</span>/10</div></div>
+  <div class="timer-wrap"><div class="timer" id="timer"><span id="seconds">15</span></div><div class="timer-copy">Beat the clock!<small>Choose one answer before time runs out.</small></div></div>
+  <div class="progress"><div id="progressBar"></div></div>
+  <div class="card"><div class="qcount" id="qcount">QUESTION 1</div><div class="question" id="question"></div><div class="choices" id="choices"></div><div class="feedback" id="feedback" aria-live="polite"></div><button class="next" id="nextBtn">Next question ➜</button></div>
+</section>
+
+<section id="end" class="screen result">
+  <div style="font-size:64px">🏆</div><h2 id="resultTitle">Amazing work!</h2><div class="bigscore"><span id="finalScore">0</span>/100</div><p id="resultText"></p>
+  <button class="primary" id="againBtn">Play Again 🔄</button>
+  <button class="secondary" id="homeBtn">Back to start</button>
+</section>
+<footer>Made with love for young English learners · Ms. Amani</footer>
+</main>
 <script>
-const banks={
-easy:[
-["What is the plural of “cat”? ",["Cates","Cats","Cat"],1],
-["Choose the correct sentence.",["She are happy.","She am happy.","She is happy."],2],
-["What color is the sky on a clear day?",["Blue","Green","Pink"],0],
-["Complete: I ___ a student.",["is","am","are"],1],
-["Which one is an animal?",["Table","Pencil","Rabbit"],2],
-["What is the opposite of “hot”?",["Cold","Tall","Fast"],0],
-["Choose the correct article: ___ apple",["A","An","The a"],1],
-["How many days are in a week?",["Five","Seven","Ten"],1],
-["What is the past of “play”?",["Playing","Plays","Played"],2],
-["Which word is a fruit?",["Carrot","Grape","Potato"],1]
-],
-medium:[
-["Choose the correct question.",["Where you live?","Where do you live?","Where does you live?"],1],
-["There ___ two books on the desk.",["are","is","am"],0],
-["What is the comparative of “small”?",["Smallest","More small","Smaller"],2],
-["Choose the correct past sentence.",["They went home.","They go home yesterday.","They going home."],0],
-["I have lived here ___ 2020.",["for","since","at"],1],
-["Which is uncountable?",["Advice","Coins","Apples"],0],
-["She is good ___ drawing.",["on","at","in"],1],
-["What does “borrow” mean?",["Give something away","Buy something","Take something and return it"],2],
-["Choose the correct pronoun: This gift is for ___.",["I","me","my"],1],
-["If it rains, we ___ at home.",["will stay","stayed","staying"],0]
-],
-hard:[
-["Choose the correct sentence.",["If I knew, I would tell you.","If I know, I would told you.","If I knew, I will told you."],0],
-["By the time we arrived, the film ___.",["starts","has start","had started"],2],
-["Which word is closest to “generous”?",["Selfish","Kind-hearted","Careless"],1],
-["Neither of the answers ___ correct.",["are","were","is"],2],
-["Choose the passive form: “They built the bridge.”",["The bridge was built.","The bridge is build.","The bridge built."],0],
-["She suggested ___ earlier.",["to leave","leaving","left"],1],
-["What is the noun form of “decide”?",["Decisive","Decision","Decidingly"],1],
-["I wish I ___ more time.",["have","will have","had"],2],
-["Despite ___ tired, he finished the task.",["being","be","was"],0],
-["Which sentence uses a defining relative clause?",["My brother, who lives in Riyadh, is a doctor.","The book that I bought is interesting.","Riyadh, which is the capital, is large."],1]
-]};
-let selectedLevel="easy",student="",questions=[],index=0,score=0,correct=0,timeLeft=15,tick=null,locked=false;
+const questions=[
+ {q:"Choose the correct sentence:",a:["She is happy.","She are happy.","She am happy."],c:0},
+ {q:"What is the plural of “child”?",a:["Childs","Children","Childes"],c:1},
+ {q:"I ___ breakfast every morning.",a:["has","having","have"],c:2},
+ {q:"Which word is an adjective?",a:["Beautiful","Quickly","Teacher"],c:0},
+ {q:"What is the opposite of “early”?",a:["Fast","Late","Near"],c:1},
+ {q:"There ___ three apples on the table.",a:["is","am","are"],c:2},
+ {q:"Choose the correct question:",a:["Where you live?","Where do you live?","Where does you live?"],c:1},
+ {q:"Which one is uncountable?",a:["Advice","Book","Pencil"],c:0},
+ {q:"Yesterday, we ___ to the park.",a:["go","went","going"],c:1},
+ {q:"She is good ___ English.",a:["at","on","in"],c:0},
+ {q:"Choose the correct pronoun: “Ali and I” = ___",a:["They","We","He"],c:1},
+ {q:"How ___ milk do you need?",a:["many","much","few"],c:1},
+ {q:"The cat is hiding ___ the table.",a:["under","between","over"],c:0},
+ {q:"My brother ___ football every Friday.",a:["play","plays","playing"],c:1},
+ {q:"Which sentence is in the past?",a:["I eat lunch.","I am eating lunch.","I ate lunch."],c:2}
+];
+let player="",score=0,index=0,remaining=15,tick=null,locked=false,round=[];
 const $=id=>document.getElementById(id);
-document.querySelectorAll(".level").forEach(btn=>btn.addEventListener("click",()=>{
- document.querySelectorAll(".level").forEach(b=>b.classList.remove("selected"));
- btn.classList.add("selected");selectedLevel=btn.dataset.level;
-}));
-function sound(ok){
- try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type="sine";o.frequency.value=ok?740:220;g.gain.setValueAtTime(.12,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.22);o.start();o.stop(c.currentTime+.23)}catch(e){}
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id).classList.add("active")}
+function shuffle(arr){return [...arr].sort(()=>Math.random()-.5)}
+function start(){player=$("playerName").value.trim()||"Superstar";score=0;index=0;round=shuffle(questions).slice(0,10);$("displayName").textContent=player;$("score").textContent=score;show("game");loadQuestion()}
+function loadQuestion(){
+ clearInterval(tick);locked=false;remaining=15;$("seconds").textContent=remaining;$("timer").style.background="conic-gradient(var(--pink) 100%,#eee 0)";
+ const item=round[index];$("number").textContent=index+1;$("qcount").textContent="QUESTION "+(index+1);$("question").textContent=item.q;$("feedback").textContent="";$("nextBtn").style.display="none";$("progressBar").style.width=(index/10*100)+"%";
+ const choices=$("choices");choices.innerHTML="";
+ item.a.forEach((answer,i)=>{const b=document.createElement("button");b.className="choice";b.textContent=String.fromCharCode(65+i)+". "+answer;b.addEventListener("click",()=>answerQuestion(i));choices.appendChild(b)});
+ tick=setInterval(()=>{remaining--;$("seconds").textContent=remaining;$("timer").style.background=`conic-gradient(var(--pink) ${remaining/15*100}%,#eee 0)`;if(remaining<=0)answerQuestion(-1)},1000)
 }
-function show(id){["start","game","result"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
-function startGame(){
- student=$("studentName").value.trim()||"Superstar";
- questions=banks[selectedLevel].map(q=>q.slice());index=0;score=0;correct=0;
- $("score").textContent=score;$("playerTag").textContent="💖 "+student;$("levelTag").textContent=selectedLevel.toUpperCase();
- show("game");renderQuestion();
-}
-function renderQuestion(){
- clearInterval(tick);locked=false;timeLeft=15;$("timer").textContent=timeLeft;
- $("feedback").textContent="";$("nextBtn").classList.add("hidden");
- $("questionCount").textContent=`Question ${index+1} / ${questions.length}`;
- $("bar").style.width=(index/questions.length*100)+"%";
- const q=questions[index];$("question").textContent=q[0];$("choices").innerHTML="";
- q[1].forEach((choice,i)=>{const b=document.createElement("button");b.className="choice";b.textContent=String.fromCharCode(65+i)+". "+choice;b.addEventListener("click",()=>answer(i,b));$("choices").appendChild(b)});
- tick=setInterval(()=>{timeLeft--;$("timer").textContent=timeLeft;if(timeLeft<=0){clearInterval(tick);answer(-1,null)}},1000);
-}
-function answer(choice,button){
+function answerQuestion(selected){
  if(locked)return;locked=true;clearInterval(tick);
- const q=questions[index],buttons=[...$("choices").children],right=q[2];
- buttons.forEach((b,i)=>{b.disabled=true;if(i===right)b.classList.add("correct")});
- if(choice===right){score+=10;correct++;$("feedback").textContent="Wonderful! That's correct! ⭐";sound(true)}
- else{$("feedback").textContent=choice===-1?"Time's up! ⏰":"Good try! The correct answer is highlighted.";if(button)button.classList.add("wrong");sound(false)}
- $("score").textContent=score;$("bar").style.width=((index+1)/questions.length*100)+"%";
- $("nextBtn").textContent=index===questions.length-1?"See my results 🏆":"Next question ➜";
- $("nextBtn").classList.remove("hidden");
+ const correct=round[index].c;const buttons=[...$("choices").children];
+ buttons.forEach((b,i)=>{b.disabled=true;if(i===correct)b.classList.add("correct");else if(i===selected)b.classList.add("wrong")});
+ if(selected===correct){score+=10;$("feedback").textContent="✓ Correct! Brilliant! +10 points";$("feedback").style.color="#20966c"}
+ else{$("feedback").textContent=selected===-1?"⏰ Time's up!":"Not quite! Keep going!";$("feedback").style.color="#d45a79"}
+ $("score").textContent=score;$("nextBtn").style.display="block";$("nextBtn").textContent=index===9?"See my results 🏆":"Next question ➜"
 }
-function nextQuestion(){if(index<questions.length-1){index++;renderQuestion()}else finish()}
-function finish(){
- clearInterval(tick);show("result");$("resultName").textContent="Well done, "+student+"!";
- $("finalScore").textContent=score+" / 100";$("correctCount").textContent=correct;
- $("resultLevel").textContent=selectedLevel.toUpperCase();
- $("rating").textContent=score>=80?"⭐⭐⭐⭐⭐":score>=60?"⭐⭐⭐⭐":"⭐⭐⭐";
- $("resultMessage").textContent=score>=80?"You are an English superstar! Keep shining!":score>=50?"Great effort! Practice makes progress!":"Keep learning and try again. You can do it!";
-}
-$("startBtn").addEventListener("click",startGame);
-$("nextBtn").addEventListener("click",nextQuestion);
-$("againBtn").addEventListener("click",()=>{show("start");$("studentName").value=student});
+function next(){index++;if(index>=10){finish();return}loadQuestion()}
+function finish(){show("end");$("progressBar").style.width="100%";$("finalScore").textContent=score;$("resultTitle").textContent=score===100?"Perfect score, "+player+"!":score>=70?"Fantastic job, "+player+"!":"Great effort, "+player+"!";$("resultText").textContent=score>=80?"You're an English superstar. Keep shining!":score>=50?"You did well! Practise a little more and you'll be even stronger.":"Every mistake helps you learn. Try again and beat your score!"}
+$("startBtn").addEventListener("click",start);$("nextBtn").addEventListener("click",next);$("againBtn").addEventListener("click",start);$("homeBtn").addEventListener("click",()=>{clearInterval(tick);show("start")});
+$("playerName").addEventListener("keydown",e=>{if(e.key==="Enter")start()});
 </script>
 </body>
 </html>
