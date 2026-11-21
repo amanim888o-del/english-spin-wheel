@@ -34,5 +34,3 @@
 [Play Princess Castle](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_princess_castle.html)
 ### 16. Mystery Mansion
 [Play Mystery Mansion](https://amanim888o-del.github.io/english-spin-wheel/ms_amani_mystery_mansion.html)
-### 17. Beat the Clock
-[Play Beat the Clock](https://amanim8880-del.github.io/english-spin-wheel/ms_amani_beat_the_clock.html)
